@@ -1,4 +1,3 @@
-// import Link from "next/navigation"
 
 const Header = () => {
   return (
