@@ -1,10 +1,11 @@
 import Hero from "@/components/landing/Hero"
-// import Footer from "@/components/Footer"
+import Pricing from "@/components/landing/Pricing"
 
 const App = () => {
   return (
     <section>
       <Hero />
+      <Pricing />
     </section>
   )
 }

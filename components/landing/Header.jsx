@@ -23,13 +23,13 @@ const Header = () => {
         </nav>
         <div className="flex flex-row gap-2 items-center">
         <ThemeToggle />
-        <Button className="hidden md:block">
+        <Button onClick={() => router.push('/auth/signup')} className="hidden md:block">
             Get free trial
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="block md:hidden text-center"
+              className="text-center block md:hidden"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ?
@@ -40,11 +40,14 @@ const Header = () => {
 </div>
         {isOpen && (
           <div className="block md:hidden border-t mt-4 px-4 py-3 w-full">
-          <ul className="flex flex-col items-center space-y-3 w-full">
-              <li><Link className="w-full hover:bg-gray-200" href="#features">Features</Link></li>
-              <li><Link className="w-full" href="#testimonials">Testimonials</Link></li>
-              <li><Link className="w-full" href="#pricing">Pricing</Link></li>
-          </ul>
+          <nav className="flex flex-col items-center space-y-1 w-full mb-2">
+              <Link className="w-full hover:bg-gray-50/50 text-center p-2 rounded-lg transition-all duration-300 ease-in-out" href="#features">Features</Link>
+              <Link className="w-full hover:bg-gray-50/50 text-center p-2 rounded-lg transition-all duration-300 ease-in-out" href="#testimonials">Testimonials</Link>
+              <Link className="w-full hover:bg-gray-50/50 text-center p-2 rounded-lg transition-all duration-300 ease-in-out" href="#pricing">Pricing</Link>
+          </nav>
+        <Button onClick={() => router.push('/auth/signup')} className="block md:hidden w-full">
+            Get free trial
+            </Button>
 
           </div>
         )}

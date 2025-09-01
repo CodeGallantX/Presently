@@ -6,11 +6,11 @@ import { Sun, Moon } from "lucide-react";
 const ThemeToggle = () => {
     const { theme, setTheme } = useTheme();
     return (
-        <Button onClick={() => setTheme(theme === "dark" ? "light": "dark")} variant="ghost" size="icon" className="text-lg">
+        <Button onClick={() => setTheme(theme === "dark" ? "light": "dark")} variant="ghost" size="icon">
             {theme === 'dark' ? (
-                <Sun className="rounded-full text-white"/>
+                <Sun className="rounded-full"/>
             ) : (
-                <Moon className="rounded-full text-black"/>
+                <Moon className="rounded-full"/>
             )}
         </Button>
     )

@@ -1,6 +1,25 @@
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+
+// const pricingPlans = [
+//     {
+//         price: 
+//     }
+// ]
+
 const Pricing = () => {
     return (
-        <h1>Pricing </h1>
+        <section>
+            <Card>
+                <CardHeader>
+                    <CardTitle>
+                        Free
+                    </CardTitle>
+                    <CardDescription>
+                        Free plan
+                    </CardDescription>
+                </CardHeader>
+            </Card>
+        </section>
     )
 }
 

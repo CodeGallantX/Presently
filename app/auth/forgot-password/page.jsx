@@ -1,11 +1,11 @@
 import AuthLayout from "@/components/auth/AuthLayout"
 
-const SignIn = () => {
+const ForgotPassword = () => {
     return (
         <section>
-        <AuthLayout page="signin"/>
+        <AuthLayout page="forgotPassword"/>
         </section>
     )
 }
 
-export default SignIn
+export default ForgotPassword
