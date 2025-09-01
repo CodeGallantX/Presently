@@ -1,3 +1,4 @@
+import { ThemeProvider } from "next-themes"
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -18,11 +19,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+      <ThemeProvider>
+      <div>
         {children}
+      </div>
+      </ThemeProvider>
       </body>
     </html>
   );
