@@ -109,11 +109,32 @@ const OnboardingPage = () => {
       // For now, we don't save fullName, email, password to store as they are handled by auth
       setCurrentStep(currentStep + 1);
     } else if (currentStep === 2) {
-      // Save Permissions details
-      setLocationAccessGranted(locationAccess);
+      // Request and save Location Permissions
+      if (locationAccess) {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              setLocationAccessGranted(true);
+              toast.success("Location access granted!");
+              setCurrentStep(currentStep + 1);
+            },
+            (error) => {
+              setLocationAccessGranted(false);
+              toast.error(`Location access denied: ${error.message}`);
+              setCurrentStep(currentStep + 1);
+            }
+          );
+        } else {
+          toast.error("Geolocation is not supported by your browser.");
+          setLocationAccessGranted(false);
+          setCurrentStep(currentStep + 1);
+        }
+      } else {
+        setLocationAccessGranted(false);
+        setCurrentStep(currentStep + 1);
+      }
       setNotificationsEnabled(notifications);
       setDarkModePreference(darkMode);
-      setCurrentStep(currentStep + 1);
     } else if (currentStep === 3) {
       router.push('/dashboard');
     }
