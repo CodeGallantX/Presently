@@ -1,7 +1,7 @@
 
 'use client';
 
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Ghost } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -14,8 +14,8 @@ export default function NotFoundComponent() {
         <p className="text-lg text-muted-foreground mb-8">
           Oops! The page you are looking for does not exist.
         </p>
-        <Button asChild className="cta-button">
-          <Link href="/">Go back home</Link>
+        <Button onClick={() => router.back()} className="cta-button">
+          Go back
         </Button>
       </div>
     </div>
