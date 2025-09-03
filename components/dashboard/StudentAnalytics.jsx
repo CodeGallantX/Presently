@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress'; // Assuming a progress component exists
 import { Download, CalendarDays, TrendingUp, BookOpen } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import MobileNav from '@/components/dashboard/MobileNav';
 import { cn } from '@/lib/utils';
@@ -68,6 +70,7 @@ const StudentAnalytics = () => {
   ).toFixed(1);
 
   const motivationalMessage = getMotivationalMessage(overallAttendancePercentage);
+  const [isChartDialogOpen, setIsChartDialogOpen] = useState(false);
 
   const handleExportCsv = () => {
     const headers = ["Course Name", "Sessions Attended", "Total Sessions", "Attendance Percentage"];
@@ -236,7 +239,8 @@ const StudentAnalytics = () => {
                   <CardDescription>Your attendance percentage over time.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="w-full h-48">
+                  {/* Desktop Chart View */}
+                  <div className="hidden md:block w-full h-48">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart
                         data={dummyAttendanceData.trend}
@@ -250,15 +254,61 @@ const StudentAnalytics = () => {
                         <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.3} />
                         <XAxis dataKey="week" tickLine={false} axisLine={false} />
                         <YAxis domain={[0, 100]} tickLine={false} axisLine={false} />
-                        <Tooltip />
-                        <Legend />
+                        <Tooltip
+                          contentStyle={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)', borderRadius: '0.5rem' }}
+                          labelStyle={{ color: 'var(--foreground)' }}
+                          itemStyle={{ color: 'var(--muted-foreground)' }}
+                        />
+                        <Legend wrapperStyle={{ paddingTop: '10px', color: 'var(--muted-foreground)' }} />
                         <Line type="monotone" dataKey="attendance" stroke="var(--primary)" activeDot={{ r: 8 }} />
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
+
+                  {/* Mobile Chart Button */}
+                  <div className="md:hidden flex justify-center">
+                    <Button onClick={() => setIsChartDialogOpen(true)} className="cta-button">
+                      View Attendance Trend
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
+
+            {/* Chart Dialog for Mobile */}
+            <Dialog open={isChartDialogOpen} onOpenChange={setIsChartDialogOpen}>
+              <DialogContent className="sm:max-w-[425px] h-[80vh] flex flex-col">
+                <DialogHeader>
+                  <DialogTitle>Attendance Trend</DialogTitle>
+                </DialogHeader>
+                <ScrollArea className="flex-grow">
+                  <div className="w-full h-[300px]"> {/* Fixed height for chart inside scroll area */}
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart
+                        data={dummyAttendanceData.trend}
+                        margin={{
+                          top: 5,
+                          right: 10,
+                          left: 10,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.3} />
+                        <XAxis dataKey="week" tickLine={false} axisLine={false} />
+                        <YAxis domain={[0, 100]} tickLine={false} axisLine={false} />
+                        <Tooltip
+                          contentStyle={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)', borderRadius: '0.5rem' }}
+                          labelStyle={{ color: 'var(--foreground)' }}
+                          itemStyle={{ color: 'var(--muted-foreground)' }}
+                        />
+                        <Legend wrapperStyle={{ paddingTop: '10px', color: 'var(--muted-foreground)' }} />
+                        <Line type="monotone" dataKey="attendance" stroke="var(--primary)" activeDot={{ r: 8 }} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </ScrollArea>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </main>
