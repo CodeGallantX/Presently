@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Settings as SettingsIcon, User, Bell, Accessibility, Lock, Mail, Clock } from 'lucide-react';
+import { Settings as SettingsIcon, User, Bell, Accessibility, Lock, Mail, Clock, ChevronRight } from 'lucide-react';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import MobileNav from '@/components/dashboard/MobileNav';
 import { cn } from '@/lib/utils';
@@ -131,6 +131,7 @@ const SettingsPage = () => {
                 onClick={() => setActiveCategory(category.id)}
               >
                 {category.icon} <span className="ml-3">{category.label}</span>
+                <ChevronRight className="w-5 h-5 ml-auto" />
               </Button>
             ))}
           </div>
@@ -151,6 +152,7 @@ const SettingsPage = () => {
                     onClick={() => setActiveCategory(category.id)}
                   >
                     {category.icon} <span className="ml-2">{category.label}</span>
+                    <ChevronRight className="w-4 h-4 ml-auto" />
                   </Button>
                 ))}
               </CardContent>
