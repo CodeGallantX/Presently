@@ -252,7 +252,7 @@ const StudentAnalytics = () => {
                         <YAxis domain={[0, 100]} tickLine={false} axisLine={false} />
                         <Tooltip />
                         <Legend />
-                        <Line type="monotone" dataKey="attendance" stroke="#8884d8" activeDot={{ r: 8 }} />
+                        <Line type="monotone" dataKey="attendance" stroke="var(--primary)" activeDot={{ r: 8 }} />
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
