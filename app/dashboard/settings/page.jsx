@@ -1,16 +1,55 @@
-
 'use client';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Settings as SettingsIcon, User, Bell, Accessibility, Lock, Mail, Clock, ChevronRight, Globe, Building, GraduationCap, Link, KeyRound, Signature, ArrowLeft, Palette, Text, Contrast, Languages, Shield, Fingerprint, DownloadCloud, LayoutDashboard, Clock as ClockIcon, HelpCircle, LifeBuoy, FileText, LogOut } from 'lucide-react';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
+import { 
+  Settings as SettingsIcon, 
+  User, 
+  Bell, 
+  Accessibility, 
+  Lock, 
+  Mail, 
+  Clock, 
+  ChevronRight, 
+  Globe, 
+  Building, 
+  GraduationCap, 
+  Link, 
+  KeyRound, 
+  Signature, 
+  ArrowLeft, 
+  Palette, 
+  Text, 
+  Contrast, 
+  Languages, 
+  Shield, 
+  Fingerprint, 
+  DownloadCloud, 
+  LayoutDashboard, 
+  Clock as ClockIcon, 
+  HelpCircle, 
+  LifeBuoy, 
+  FileText, 
+  LogOut,
+  MapPin
+} from 'lucide-react';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import MobileNav from '@/components/dashboard/MobileNav';
+import { useAppStore } from '@/store/appStore'; // Adjust the import path as needed
 import { cn } from '@/lib/utils';
 
 // Sub-components for settings sections
@@ -140,8 +179,6 @@ const NotificationSettings = ({ onBack }) => (
   </Card>
 );
 
-import { useTheme } from 'next-themes';
-
 const AppearanceAccessibilitySettings = ({ onBack }) => {
   const { theme, setTheme } = useTheme();
   return (
@@ -162,42 +199,43 @@ const AppearanceAccessibilitySettings = ({ onBack }) => {
           />
         </div>
 
-      <Separator className="my-4" />
+        <Separator className="my-4" />
 
-      {/* Text Size */}
-      <h3 className="text-lg font-semibold flex items-center gap-2"><Text className="w-4 h-4" /> Text Size</h3>
-      <div className="flex items-center justify-between">
-        <Label htmlFor="text-size">Large Text</Label>
-        <Switch id="text-size" />
-      </div>
+        {/* Text Size */}
+        <h3 className="text-lg font-semibold flex items-center gap-2"><Text className="w-4 h-4" /> Text Size</h3>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="text-size">Large Text</Label>
+          <Switch id="text-size" />
+        </div>
 
-      <Separator className="my-4" />
+        <Separator className="my-4" />
 
-      {/* High Contrast Mode */}
-      <h3 className="text-lg font-semibold flex items-center gap-2"><Contrast className="w-4 h-4" /> High Contrast Mode</h3>
-      <div className="flex items-center justify-between">
-        <Label htmlFor="high-contrast">Enable High Contrast</Label>
-        <Switch id="high-contrast" />
-      </div>
+        {/* High Contrast Mode */}
+        <h3 className="text-lg font-semibold flex items-center gap-2"><Contrast className="w-4 h-4" /> High Contrast Mode</h3>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="high-contrast">Enable High Contrast</Label>
+          <Switch id="high-contrast" />
+        </div>
 
-      <Separator className="my-4" />
+        <Separator className="my-4" />
 
-      {/* Language Preference */}
-      <h3 className="text-lg font-semibold flex items-center gap-2"><Languages className="w-4 h-4" /> Language Preference</h3>
-      <Select defaultValue="english">
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select language" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="english">English</SelectItem>
-          <SelectItem value="spanish">Spanish</SelectItem>
-          <SelectItem value="french">French</SelectItem>
-        </SelectContent>
-      </Select>
-      <Button>Save Appearance</Button>
-    </CardContent>
-  </Card>
-);
+        {/* Language Preference */}
+        <h3 className="text-lg font-semibold flex items-center gap-2"><Languages className="w-4 h-4" /> Language Preference</h3>
+        <Select defaultValue="english">
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select language" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="english">English</SelectItem>
+            <SelectItem value="spanish">Spanish</SelectItem>
+            <SelectItem value="french">French</SelectItem>
+          </SelectContent>
+        </Select>
+        <Button>Save Appearance</Button>
+      </CardContent>
+    </Card>
+  );
+};
 
 const PrivacySecuritySettings = ({ onBack }) => {
   const { locationAccessGranted, setLocationAccessGranted } = useAppStore();
