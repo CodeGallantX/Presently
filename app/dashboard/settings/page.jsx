@@ -51,6 +51,7 @@ import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import MobileNav from '@/components/dashboard/MobileNav';
 import { useAppStore } from '@/store/appStore'; // Adjust the import path as needed
 import { cn } from '@/lib/utils';
+import ReportIssueDialog from '@/components/dashboard/ReportIssueDialog';
 
 // Sub-components for settings sections
 const AccountSettings = ({ onBack }) => (
@@ -339,7 +340,7 @@ const AppPreferencesSettings = ({ onBack }) => (
   </Card>
 );
 
-const HelpSupportSettings = ({ onBack }) => (
+const HelpSupportSettings = ({ onBack, setIsReportIssueDialogOpen }) => (
   <Card className="w-full">
     <CardHeader className="relative">
       <CardTitle className="flex items-center gap-2"><HelpCircle className="w-5 h-5" /> Help & Support</CardTitle>
@@ -354,7 +355,7 @@ const HelpSupportSettings = ({ onBack }) => (
 
       {/* Contact Support */}
       <h3 className="text-lg font-semibold flex items-center gap-2"><LifeBuoy className="w-4 h-4" /> Contact Support</h3>
-      <Button variant="outline" className="w-full justify-start">Report an Issue</Button>
+      <Button variant="outline" className="w-full justify-start" onClick={() => setIsReportIssueDialogOpen(true)}>Report an Issue</Button>
       <Button variant="outline" className="w-full justify-start">Chat with Support</Button>
 
       <Separator className="my-4" />
@@ -373,12 +374,13 @@ const settingsCategories = [
   { id: 'appearance', label: 'Appearance & Accessibility', icon: <Palette className="w-5 h-5" />, component: AppearanceAccessibilitySettings },
   { id: 'privacy', label: 'Privacy & Security', icon: <Shield className="w-5 h-5" />, component: PrivacySecuritySettings },
   { id: 'preferences', label: 'App Preferences', icon: <LayoutDashboard className="w-5 h-5" />, component: AppPreferencesSettings },
-  { id: 'help', label: 'Help & Support', icon: <HelpCircle className="w-5 h-5" />, component: HelpSupportSettings },
+  { id: 'help', label: 'Help & Support', icon: <HelpCircle className="w-5 h-5" />, component: (props) => <HelpSupportSettings {...props} setIsReportIssueDialogOpen={setIsReportIssueDialogOpen} /> },
 ];
 
 const SettingsPage = () => {
   const [activeCategory, setActiveCategory] = useState('account'); // Default active category
   const [showMobileCategoryContent, setShowMobileCategoryContent] = useState(false);
+  const [isReportIssueDialogOpen, setIsReportIssueDialogOpen] = useState(false);
 
   const handleCategoryClick = (categoryId) => {
     setActiveCategory(categoryId);
@@ -478,6 +480,11 @@ const SettingsPage = () => {
       </div>
 
       <MobileNav activeTab="settings" />
+
+      <ReportIssueDialog
+        isOpen={isReportIssueDialogOpen}
+        onClose={() => setIsReportIssueDialogOpen(false)}
+      />
     </div>
   );
 };
