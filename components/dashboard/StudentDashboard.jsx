@@ -139,7 +139,7 @@ const StudentDashboard = () => {
               <CardDescription>Your latest attendance records</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-2 md:space-y-4">
                 {attendanceHistory.map((record, index) => (
                   <motion.div
                     key={record.id}
