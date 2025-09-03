@@ -6,7 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Smartphone, Apple, Android, Share2, PlusCircle } from 'lucide-react';
+import { Smartphone } from 'lucide-react/dist/esm/icons/smartphone';
+import { Apple } from 'lucide-react/dist/esm/icons/apple';
+import { Android } from 'lucide-react/dist/esm/icons/android';
+import { Share2 } from 'lucide-react/dist/esm/icons/share-2';
+import { PlusCircle } from 'lucide-react/dist/esm/icons/plus-circle';
 import { cn } from '@/lib/utils';
 
 const PwaInstallSection = () => {
