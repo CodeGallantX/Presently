@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress'; // Assuming a progress component exists
 import { Download, CalendarDays, TrendingUp, BookOpen } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import MobileNav from '@/components/dashboard/MobileNav';
 import { cn } from '@/lib/utils';
@@ -235,9 +236,25 @@ const StudentAnalytics = () => {
                   <CardDescription>Your attendance percentage over time.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {/* Simple Line Chart Placeholder */}
-                  <div className="w-full h-48 bg-muted rounded-lg flex items-center justify-center text-muted-foreground">
-                    Line Chart Placeholder (Attendance % over weeks)
+                  <div className="w-full h-48">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart
+                        data={dummyAttendanceData.trend}
+                        margin={{
+                          top: 5,
+                          right: 10,
+                          left: 10,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.3} />
+                        <XAxis dataKey="week" tickLine={false} axisLine={false} />
+                        <YAxis domain={[0, 100]} tickLine={false} axisLine={false} />
+                        <Tooltip />
+                        <Legend />
+                        <Line type="monotone" dataKey="attendance" stroke="#8884d8" activeDot={{ r: 8 }} />
+                      </LineChart>
+                    </ResponsiveContainer>
                   </div>
                 </CardContent>
               </Card>
