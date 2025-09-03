@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import Hero from "@/components/landing/Hero";
 import KeyFeatures from "@/components/landing/KeyFeatures";
 import HowItWorks from "@/components/landing/HowItWorks";
@@ -14,7 +15,11 @@ const App = () => {
   const [activeSection, setActiveSection] = useState('hero');
 
   return (
-    <main>
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <Header activeSection={activeSection} />
       <Hero setActiveSection={setActiveSection} />
       <KeyFeatures setActiveSection={setActiveSection} />
@@ -24,7 +29,7 @@ const App = () => {
       <Pricing setActiveSection={setActiveSection} />
       <Faq setActiveSection={setActiveSection} />
       <Footer />
-    </main>
+    </motion.main>
   );
 };
 
