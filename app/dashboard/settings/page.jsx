@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Settings as SettingsIcon, User, Bell, Accessibility, Lock, Mail, Clock, ChevronRight, Globe, Building, GraduationCap, Link, KeyRound, Signature, ArrowLeft } from 'lucide-react';
+import { Settings as SettingsIcon, User, Bell, Accessibility, Lock, Mail, Clock, ChevronRight, Globe, Building, GraduationCap, Link, KeyRound, Signature, ArrowLeft, Palette, Text, Contrast, Languages, Shield, Fingerprint, DownloadCloud, LayoutDashboard, Clock as ClockIcon, HelpCircle, LifeBuoy, FileText } from 'lucide-react';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import MobileNav from '@/components/dashboard/MobileNav';
 import { cn } from '@/lib/utils';
@@ -113,6 +113,28 @@ const NotificationSettings = ({ onBack }) => (
 
       <Separator className="my-4" />
 
+      {/* In-App Notifications */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><Bell className="w-4 h-4" /> In-App Notifications</h3>
+      <div className="flex items-center justify-between">
+        <Label htmlFor="inapp-popups">Sonner Popups</Label>
+        <Switch id="inapp-popups" defaultChecked />
+      </div>
+      <div className="flex items-center justify-between">
+        <Label htmlFor="inapp-alerts">Dashboard Alerts</Label>
+        <Switch id="inapp-alerts" defaultChecked />
+      </div>
+
+      <Separator className="my-4" />
+
+      {/* Push Notifications */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><Clock className="w-4 h-4" /> Push Notifications</h3>
+      <div className="flex items-center justify-between">
+        <Label htmlFor="push-notifications">Enable Push Notifications</Label>
+        <Switch id="push-notifications" />
+      </div>
+
+      <Separator className="my-4" />
+
       {/* Reminders */}
       <h3 className="text-lg font-semibold flex items-center gap-2"><Clock className="w-4 h-4" /> Reminders</h3>
       <div className="flex items-center justify-between">
@@ -128,7 +150,7 @@ const NotificationSettings = ({ onBack }) => (
   </Card>
 );
 
-const AccessibilitySettings = ({ onBack }) => (
+const AppearanceAccessibilitySettings = ({ onBack }) => (
   <Card className="w-full">
     <CardHeader className="relative">
       <div className="md:hidden absolute left-2 top-2">
@@ -136,11 +158,185 @@ const AccessibilitySettings = ({ onBack }) => (
           <ArrowLeft className="w-5 h-5" />
         </Button>
       </div>
-      <CardTitle className="flex items-center gap-2"><Accessibility className="w-5 h-5" /> Accessibility</CardTitle>
+      <CardTitle className="flex items-center gap-2"><Palette className="w-5 h-5" /> Appearance & Accessibility</CardTitle>
     </CardHeader>
-    <CardContent>
-      <p className="text-muted-foreground">Adjust accessibility options (e.g., font size, contrast).</p>
-      <p className="text-sm text-muted-foreground mt-4">More accessibility options coming soon!</p>
+    <CardContent className="space-y-4">
+      <p className="text-muted-foreground">Customize the look and feel of the app.</p>
+      {/* Theme */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><Palette className="w-4 h-4" /> Theme</h3>
+      <div className="flex items-center justify-between">
+        <Label htmlFor="theme-toggle">Dark Mode</Label>
+        <Switch id="theme-toggle" defaultChecked />
+      </div>
+
+      <Separator className="my-4" />
+
+      {/* Text Size */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><Text className="w-4 h-4" /> Text Size</h3>
+      <div className="flex items-center justify-between">
+        <Label htmlFor="text-size">Large Text</Label>
+        <Switch id="text-size" />
+      </div>
+
+      <Separator className="my-4" />
+
+      {/* High Contrast Mode */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><Contrast className="w-4 h-4" /> High Contrast Mode</h3>
+      <div className="flex items-center justify-between">
+        <Label htmlFor="high-contrast">Enable High Contrast</Label>
+        <Switch id="high-contrast" />
+      </div>
+
+      <Separator className="my-4" />
+
+      {/* Language Preference */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><Languages className="w-4 h-4" /> Language Preference</h3>
+      <Select defaultValue="english">
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Select language" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="english">English</SelectItem>
+          <SelectItem value="spanish">Spanish</SelectItem>
+          <SelectItem value="french">French</SelectItem>
+        </SelectContent>
+      </Select>
+      <Button>Save Appearance</Button>
+    </CardContent>
+  </Card>
+);
+
+const PrivacySecuritySettings = ({ onBack }) => (
+  <Card className="w-full">
+    <CardHeader className="relative">
+      <div className="md:hidden absolute left-2 top-2">
+        <Button variant="ghost" size="icon" onClick={onBack}>
+          <ArrowLeft className="w-5 h-5" />
+        </Button>
+      </div>
+      <CardTitle className="flex items-center gap-2"><Shield className="w-5 h-5" /> Privacy & Security</CardTitle>
+    </CardHeader>
+    <CardContent className="space-y-4">
+      <p className="text-muted-foreground">Manage your privacy and security settings.</p>
+      {/* Manage Login Devices */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><Fingerprint className="w-4 h-4" /> Manage Login Devices</h3>
+      <p className="text-muted-foreground">View and manage devices logged into your account.</p>
+      <Button variant="outline" className="w-full justify-start">View Active Sessions</Button>
+
+      <Separator className="my-4" />
+
+      {/* 2FA */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><Lock className="w-4 h-4" /> Two-Factor Authentication (2FA)</h3>
+      <p className="text-muted-foreground">Add an extra layer of security to your account.</p>
+      <Button variant="outline" className="w-full justify-start">Enable 2FA (Coming Soon)</Button>
+
+      <Separator className="my-4" />
+
+      {/* Location Permissions */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><MapPin className="w-4 h-4" /> Location Permissions</h3>
+      <p className="text-muted-foreground">Control app access to your device's location.</p>
+      <Button variant="outline" className="w-full justify-start">Manage Location Access</Button>
+
+      <Separator className="my-4" />
+
+      {/* Data Download/Export */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><DownloadCloud className="w-4 h-4" /> Data & Export</h3>
+      <p className="text-muted-foreground">Download your personal data or export attendance records.</p>
+      <Button variant="outline" className="w-full justify-start">Request Data Export</Button>
+      <Button>Save Privacy Settings</Button>
+    </CardContent>
+  </Card>
+);
+
+const AppPreferencesSettings = ({ onBack }) => (
+  <Card className="w-full">
+    <CardHeader className="relative">
+      <div className="md:hidden absolute left-2 top-2">
+        <Button variant="ghost" size="icon" onClick={onBack}>
+          <ArrowLeft className="w-5 h-5" />
+        </Button>
+      </div>
+      <CardTitle className="flex items-center gap-2"><LayoutDashboard className="w-5 h-5" /> App Preferences</CardTitle>
+    </CardHeader>
+    <CardContent className="space-y-4">
+      <p className="text-muted-foreground">Configure how the app behaves.</p>
+      {/* Default Dashboard View */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><LayoutDashboard className="w-4 h-4" /> Default Dashboard View</h3>
+      <Select defaultValue="attendance">
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Select default view" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="attendance">Attendance</SelectItem>
+          <SelectItem value="analytics">Analytics</SelectItem>
+          <SelectItem value="courses">Courses</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Separator className="my-4" />
+
+      {/* Time Format */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><ClockIcon className="w-4 h-4" /> Time Format</h3>
+      <Select defaultValue="12h">
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Select time format" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="12h">12-hour (AM/PM)</SelectItem>
+          <SelectItem value="24h">24-hour</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Separator className="my-4" />
+
+      {/* Attendance Reminders */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><Bell className="w-4 h-4" /> Attendance Reminders</h3>
+      <div className="flex items-center justify-between">
+        <Label htmlFor="remind-before-class">Before Class</Label>
+        <Switch id="remind-before-class" defaultChecked />
+      </div>
+      <div className="flex items-center justify-between">
+        <Label htmlFor="remind-daily">Daily Summary</Label>
+        <Switch id="remind-daily" />
+      </div>
+      <div className="flex items-center justify-between">
+        <Label htmlFor="remind-weekly">Weekly Report</Label>
+        <Switch id="remind-weekly" />
+      </div>
+      <Button>Save Preferences</Button>
+    </CardContent>
+  </Card>
+);
+
+const HelpSupportSettings = ({ onBack }) => (
+  <Card className="w-full">
+    <CardHeader className="relative">
+      <div className="md:hidden absolute left-2 top-2">
+        <Button variant="ghost" size="icon" onClick={onBack}>
+          <ArrowLeft className="w-5 h-5" />
+        </Button>
+      </div>
+      <CardTitle className="flex items-center gap-2"><HelpCircle className="w-5 h-5" /> Help & Support</CardTitle>
+    </CardHeader>
+    <CardContent className="space-y-4">
+      <p className="text-muted-foreground">Find answers to common questions or contact our support team.</p>
+      {/* FAQs */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><HelpCircle className="w-4 h-4" /> Frequently Asked Questions</h3>
+      <Button variant="outline" className="w-full justify-start">View FAQs</Button>
+
+      <Separator className="my-4" />
+
+      {/* Contact Support */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><LifeBuoy className="w-4 h-4" /> Contact Support</h3>
+      <Button variant="outline" className="w-full justify-start">Report an Issue</Button>
+      <Button variant="outline" className="w-full justify-start">Chat with Support</Button>
+
+      <Separator className="my-4" />
+
+      {/* Legal */}
+      <h3 className="text-lg font-semibold flex items-center gap-2"><FileText className="w-4 h-4" /> Legal</h3>
+      <Button variant="outline" className="w-full justify-start">Terms & Conditions</Button>
+      <Button variant="outline" className="w-full justify-start">Privacy Policy</Button>
     </CardContent>
   </Card>
 );
@@ -148,7 +344,10 @@ const AccessibilitySettings = ({ onBack }) => (
 const settingsCategories = [
   { id: 'account', label: 'Account', icon: <User className="w-5 h-5" />, component: AccountSettings },
   { id: 'notifications', label: 'Notifications', icon: <Bell className="w-5 h-5" />, component: NotificationSettings },
-  { id: 'accessibility', label: 'Accessibility', icon: <Accessibility className="w-5 h-5" />, component: AccessibilitySettings },
+  { id: 'appearance', label: 'Appearance & Accessibility', icon: <Palette className="w-5 h-5" />, component: AppearanceAccessibilitySettings },
+  { id: 'privacy', label: 'Privacy & Security', icon: <Shield className="w-5 h-5" />, component: PrivacySecuritySettings },
+  { id: 'preferences', label: 'App Preferences', icon: <LayoutDashboard className="w-5 h-5" />, component: AppPreferencesSettings },
+  { id: 'help', label: 'Help & Support', icon: <HelpCircle className="w-5 h-5" />, component: HelpSupportSettings },
 ];
 
 const SettingsPage = () => {
