@@ -19,6 +19,7 @@ export default function ProfilePage() {
     institution: "University of XYZ",
     country: "Nigeria",
   });
+  const [profilePicture, setProfilePicture] = useState("/user-placeholder.png"); // Placeholder image
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -26,6 +27,17 @@ export default function ProfilePage() {
       ...prevData,
       [id]: value,
     }));
+  };
+
+  const handlePictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePicture(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSave = () => {
@@ -51,6 +63,32 @@ export default function ProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              <div className="flex flex-col items-center gap-4 mb-6">
+                <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-primary">
+                  <img
+                    src={profilePicture}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
+                  {isEditing && (
+                    <label
+                      htmlFor="profile-picture-upload"
+                      className="absolute inset-0 flex items-center justify-center bg-black/50 text-white cursor-pointer opacity-0 hover:opacity-100 transition-opacity"
+                    >
+                      <User className="w-6 h-6" />
+                    </label>
+                  )}
+                </div>
+                {isEditing && (
+                  <Input
+                    id="profile-picture-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePictureChange}
+                    className="hidden"
+                  />
+                )}
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
                 <Input

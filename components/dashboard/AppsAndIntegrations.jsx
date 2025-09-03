@@ -4,15 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Plug } from "lucide-react"; // General integration icon
-import { FaSlack, FaWhatsapp } from "react-icons/fa";
-import { SiGoogleSheets, SiGooglecalendar } from "react-icons/si";
+import { FaSlack, FaWhatsapp, FaFileExcel } from "react-icons/fa";
+import { SiGooglecalendar } from "react-icons/si";
 
 // Mock data for integrations
 const integrations = [
   {
     id: "google-sheets",
     name: "Google Sheets",
-    icon: <SiGoogleSheets className="w-5 h-5" />,
+    icon: <FaFileExcel className="w-5 h-5" />,
     description: "Sync attendance data to Google Sheets.",
     status: "Disconnected",
   },
