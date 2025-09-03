@@ -5,10 +5,14 @@ import { useRouter } from 'next/navigation';
 import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
-import { GraduationCap, Users, BookOpen, ArrowRight, ArrowLeft, Check } from "lucide-react";
+import { GraduationCap, Users, BookOpen, ArrowRight, ArrowLeft, Check, Chrome } from "lucide-react";
 import { useAppStore } from "@/lib/store";
+import { toast } from "sonner";
 
 const roles = [
   {
@@ -43,6 +47,14 @@ const steps = [
     description: 'Select how you\'ll be using Presently'
   },
   {
+    title: 'Account Setup',
+    description: 'Tell us a bit more about yourself'
+  },
+  {
+    title: 'Permissions',
+    description: 'Help us personalize your experience'
+  },
+  {
     title: 'Setup Complete',
     description: 'You\'re all set to start using Presently!'
   }
@@ -52,7 +64,24 @@ const OnboardingPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedRole, setSelectedRole] = useState(null);
   const router = useRouter();
-  const { setUserRole } = useAppStore();
+  const { setUserRole, setMatriculationNumber, setDepartment, setLevel, setDigitalSignature, setStaffId, setCoursesTaught, setAssignedCourses, setAssignedLecturer, setLocationAccessGranted, setNotificationsEnabled, setDarkModePreference } = useAppStore();
+
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('user@example.com'); // Placeholder, will be pre-filled from auth
+  const [password, setPassword] = useState('');
+  const [matriculationNumberInput, setMatriculationNumberInput] = useState('');
+  const [studentDepartmentInput, setStudentDepartmentInput] = useState('');
+  const [levelInput, setLevelInput] = useState('');
+  const [digitalSignatureInput, setDigitalSignatureInput] = useState(null);
+  const [staffIdInput, setStaffIdInput] = useState('');
+  const [lecturerDepartmentInput, setLecturerDepartmentInput] = useState('');
+  const [coursesTaughtInput, setCoursesTaughtInput] = useState('');
+  const [assignedCoursesInput, setAssignedCoursesInput] = useState('');
+  const [assignedLecturerInput, setAssignedLecturerInput] = useState('');
+
+  const [locationAccess, setLocationAccess] = useState(false);
+  const [notifications, setNotifications] = useState(false);
+  const [darkMode, setDarkMode] = useState(true); // Default to dark mode
 
   const handleRoleSelect = (roleId) => {
     setSelectedRole(roleId);
@@ -61,8 +90,31 @@ const OnboardingPage = () => {
   const handleNext = () => {
     if (currentStep === 0 && selectedRole) {
       setUserRole(selectedRole);
-      setCurrentStep(1);
+      setCurrentStep(currentStep + 1);
     } else if (currentStep === 1) {
+      // Save Account Setup details
+      if (selectedRole === 'student') {
+        setMatriculationNumber(matriculationNumberInput);
+        setDepartment(studentDepartmentInput);
+        setLevel(levelInput);
+        setDigitalSignature(digitalSignatureInput);
+      } else if (selectedRole === 'lecturer') {
+        setStaffId(staffIdInput);
+        setDepartment(lecturerDepartmentInput);
+        setCoursesTaught(coursesTaughtInput.split(',').map(s => s.trim()));
+      } else if (selectedRole === 'class-rep') {
+        setAssignedCourses(assignedCoursesInput.split(',').map(s => s.trim()));
+        setAssignedLecturer(assignedLecturerInput);
+      }
+      // For now, we don't save fullName, email, password to store as they are handled by auth
+      setCurrentStep(currentStep + 1);
+    } else if (currentStep === 2) {
+      // Save Permissions details
+      setLocationAccessGranted(locationAccess);
+      setNotificationsEnabled(notifications);
+      setDarkModePreference(darkMode);
+      setCurrentStep(currentStep + 1);
+    } else if (currentStep === 3) {
       router.push('/dashboard');
     }
   };
@@ -168,6 +220,150 @@ const OnboardingPage = () => {
           )}
 
           {currentStep === 1 && (
+            <motion.div
+              key="account-setup"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.5 }}
+              className="max-w-2xl mx-auto space-y-8"
+            >
+              <Card className="glass-card p-8">
+                <CardHeader className="text-center">
+                  <CardTitle className="text-2xl font-bold mb-2">Account Details</CardTitle>
+                  <CardDescription>Provide some basic information to set up your profile.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="name">Full Name</Label>
+                      <Input id="name" type="text" placeholder="John Doe" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                    </div>
+                    <div>
+                      <Label htmlFor="email">Email</Label>
+                      <Input id="email" type="email" placeholder="john.doe@example.com" value={email} onChange={(e) => setEmail(e.target.value)} disabled />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="password">Password</Label>
+                    <Input id="password" type="password" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} />
+                  </div>
+
+                  {selectedRole === 'student' && (
+                    <>
+                      <div>
+                        <Label htmlFor="matriculation">Matriculation Number</Label>
+                        <Input id="matriculation" type="text" placeholder="UG/2023/001" value={matriculationNumberInput} onChange={(e) => setMatriculationNumberInput(e.target.value)} />
+                      </div>
+                      <div>
+                        <Label htmlFor="department">Department</Label>
+                        <Input id="department" type="text" placeholder="Computer Science" value={studentDepartmentInput} onChange={(e) => setStudentDepartmentInput(e.target.value)} />
+                      </div>
+                      <div>
+                        <Label htmlFor="level">Level</Label>
+                        <Input id="level" type="text" placeholder="100" value={levelInput} onChange={(e) => setLevelInput(e.target.value)} />
+                      </div>
+                      <div>
+                        <Label htmlFor="signature">Digital Signature (Upload)</Label>
+                        <Input id="signature" type="file" onChange={(e) => setDigitalSignatureInput(e.target.files[0])} />
+                      </div>
+                    </>
+                  )}
+
+                  {selectedRole === 'lecturer' && (
+                    <>
+                      <div>
+                        <Label htmlFor="staffId">Staff ID</Label>
+                        <Input id="staffId" type="text" placeholder="LEC/2023/005" value={staffIdInput} onChange={(e) => setStaffIdInput(e.target.value)} />
+                      </div>
+                      <div>
+                        <Label htmlFor="department">Department</Label>
+                        <Input id="department" type="text" placeholder="Physics" value={lecturerDepartmentInput} onChange={(e) => setLecturerDepartmentInput(e.target.value)} />
+                      </div>
+                      <div>
+                        <Label htmlFor="coursesTaught">Courses Taught (Comma Separated)</Label>
+                        <Input id="coursesTaught" type="text" placeholder="PHY101, PHY201" value={coursesTaughtInput} onChange={(e) => setCoursesTaughtInput(e.target.value)} />
+                      </div>
+                    </>
+                  )}
+
+                  {selectedRole === 'class-rep' && (
+                    <>
+                      <div>
+                        <Label htmlFor="assignedCourses">Assigned Courses (Link/IDs)</Label>
+                        <Input id="assignedCourses" type="text" placeholder="MATH101, CHM202" value={assignedCoursesInput} onChange={(e) => setAssignedCoursesInput(e.target.value)} />
+                      </div>
+                      <div>
+                        <Label htmlFor="assignedLecturer">Assigned Lecturer (ID/Email)</Label>
+                        <Input id="assignedLecturer" type="text" placeholder="lecturer@example.com" value={assignedLecturerInput} onChange={(e) => setAssignedLecturerInput(e.target.value)} />
+                      </div>
+                    </>
+                  )}
+                </CardContent>
+                <CardFooter className="flex flex-col space-y-4 pt-6">
+                  <div className="relative w-full">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-border" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-card px-2 text-muted-foreground">Or</span>
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full h-12 secondary-button group"
+                  >
+                    <Chrome className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                    Sign in with Google
+                  </Button>
+                </CardFooter>
+              </Card>
+            </motion.div>
+          )}
+
+          {currentStep === 2 && (
+            <motion.div
+              key="permissions"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.5 }}
+              className="max-w-2xl mx-auto space-y-8"
+            >
+              <Card className="glass-card p-8">
+                <CardHeader className="text-center">
+                  <CardTitle className="text-2xl font-bold mb-2">Permissions & Preferences</CardTitle>
+                  <CardDescription>Help us tailor your experience.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="location-access" className="flex flex-col">
+                      <span>Location Access</span>
+                      <span className="font-normal text-muted-foreground text-sm">Required for GPS attendance verification.</span>
+                    </Label>
+                    <Switch id="location-access" checked={locationAccess} onCheckedChange={setLocationAccess} />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="notifications" className="flex flex-col">
+                      <span>Notifications</span>
+                      <span className="font-normal text-muted-foreground text-sm">Get alerts for new sessions, announcements, and more.</span>
+                    </Label>
+                    <Switch id="notifications" checked={notifications} onCheckedChange={setNotifications} />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="dark-mode" className="flex flex-col">
+                      <span>Dark Mode</span>
+                      <span className="font-normal text-muted-foreground text-sm">Enable dark theme for a comfortable viewing experience.</span>
+                    </Label>
+                    <Switch id="dark-mode" checked={darkMode} onCheckedChange={setDarkMode} /> {/* Default to dark mode */}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+
+          {currentStep === 3 && (
             <motion.div
               key="completion"
               initial={{ opacity: 0, scale: 0.9 }}
