@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Settings as SettingsIcon, User, Bell, Accessibility, Lock, Mail, Clock, ChevronRight, Globe, Building, GraduationCap, Link, KeyRound, Signature, ArrowLeft, Palette, Text, Contrast, Languages, Shield, Fingerprint, DownloadCloud, LayoutDashboard, Clock as ClockIcon, HelpCircle, LifeBuoy, FileText } from 'lucide-react';
+import { Settings as SettingsIcon, User, Bell, Accessibility, Lock, Mail, Clock, ChevronRight, Globe, Building, GraduationCap, Link, KeyRound, Signature, ArrowLeft, Palette, Text, Contrast, Languages, Shield, Fingerprint, DownloadCloud, LayoutDashboard, Clock as ClockIcon, HelpCircle, LifeBuoy, FileText, LogOut } from 'lucide-react';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import MobileNav from '@/components/dashboard/MobileNav';
 import { cn } from '@/lib/utils';
@@ -329,6 +329,14 @@ const SettingsPage = () => {
     setShowMobileCategoryContent(true);
   };
 
+  const { logout } = useAppStore();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push('/auth/signin');
+  };
+
   const handleBackToCategories = () => {
     setShowMobileCategoryContent(false);
   };
@@ -395,6 +403,23 @@ const SettingsPage = () => {
           </div>
         </motion.div>
       </main>
+
+      <div className="container mx-auto px-4 pb-8 md:pb-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          <Button
+            onClick={handleLogout}
+            className="w-full cta-button flex items-center justify-center gap-2"
+            variant="destructive"
+          >
+            <LogOut className="w-5 h-5" />
+            Log Out
+          </Button>
+        </motion.div>
+      </div>
 
       <MobileNav activeTab="settings" />
     </div>
