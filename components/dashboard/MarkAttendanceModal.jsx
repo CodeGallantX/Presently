@@ -43,7 +43,7 @@ const MarkAttendanceModal = ({ isOpen, onClose, onMarkAttendance }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-full sm:max-w-[425px] p-6">
+      <DialogContent className="w-full sm:max-w-[425px] p-6 overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">Mark Attendance</DialogTitle>
           <DialogDescription>
