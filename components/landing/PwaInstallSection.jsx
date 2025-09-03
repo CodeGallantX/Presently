@@ -6,11 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Smartphone } from 'lucide-react/dist/esm/icons/smartphone';
-import { Apple } from 'lucide-react/dist/esm/icons/apple';
-import { Android } from 'lucide-react/dist/esm/icons/android';
-import { Share2 } from 'lucide-react/dist/esm/icons/share-2';
-import { PlusCircle } from 'lucide-react/dist/esm/icons/plus-circle';
+import { Smartphone, Apple, Android, Share2, PlusCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const PwaInstallSection = () => {
@@ -75,10 +71,21 @@ const PwaInstallSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex justify-center"
+            className="flex justify-center relative"
           >
-            <div className="w-full max-w-md h-64 bg-gray-200 dark:bg-gray-800 rounded-xl flex items-center justify-center text-muted-foreground text-lg">
-              [App Mockups Here]
+            <div className="relative w-64 h-96 bg-gray-800 rounded-3xl shadow-xl flex items-center justify-center overflow-hidden">
+              {/* Phone Bezel */}
+              <div className="absolute inset-0 border-8 border-gray-900 rounded-3xl z-10"></div>
+              {/* Screen Content Placeholder */}
+              <div className="w-[calc(100%-16px)] h-[calc(100%-16px)] bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-white text-sm p-4">
+                <div className="text-center space-y-2">
+                  <Smartphone className="w-10 h-10 mx-auto" />
+                  <p className="font-semibold">Your App Here</p>
+                  <p className="text-xs opacity-80">Seamless Experience</p>
+                </div>
+              </div>
+              {/* Notch/Camera */}
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 bg-gray-900 rounded-b-lg z-20"></div>
             </div>
           </motion.div>
 
