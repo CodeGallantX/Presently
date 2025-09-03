@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Smartphone, Apple, Android, Share2, PlusCircle } from 'lucide-react';
+import { FaAndroid, FaApple } from 'react-icons/fa';
+import { Share2, PlusCircle } from 'lucide-react'; // Keep these for iOS instructions
 import { cn } from '@/lib/utils';
 
 const PwaInstallSection = () => {
@@ -71,22 +72,9 @@ const PwaInstallSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex justify-center relative"
+            className="flex justify-center"
           >
-            <div className="relative w-64 h-96 bg-gray-800 rounded-3xl shadow-xl flex items-center justify-center overflow-hidden">
-              {/* Phone Bezel */}
-              <div className="absolute inset-0 border-8 border-gray-900 rounded-3xl z-10"></div>
-              {/* Screen Content Placeholder */}
-              <div className="w-[calc(100%-16px)] h-[calc(100%-16px)] bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-white text-sm p-4">
-                <div className="text-center space-y-2">
-                  <Smartphone className="w-10 h-10 mx-auto" />
-                  <p className="font-semibold">Your App Here</p>
-                  <p className="text-xs opacity-80">Seamless Experience</p>
-                </div>
-              </div>
-              {/* Notch/Camera */}
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 bg-gray-900 rounded-b-lg z-20"></div>
-            </div>
+            <img src="https://via.placeholder.com/300x500?text=App+Mockup" alt="App Mockup" className="w-full max-w-xs rounded-lg shadow-lg" />
           </motion.div>
 
           {/* Install Buttons */}
@@ -111,7 +99,7 @@ const PwaInstallSection = () => {
                   disabled={!deferredPrompt}
                   className="cta-button w-full"
                 >
-                  <Smartphone className="w-5 h-5 mr-2" />
+                  <FaAndroid className="w-5 h-5 mr-2" />
                   Install App (Android)
                 </Button>
                 {!deferredPrompt && (
@@ -133,7 +121,7 @@ const PwaInstallSection = () => {
                   onClick={handleIosInstallClick}
                   className="secondary-button w-full"
                 >
-                  <Smartphone className="w-5 h-5 mr-2" />
+                  <FaApple className="w-5 h-5 mr-2" />
                   Add to Home Screen (iOS)
                 </Button>
                 {!isIos && (
