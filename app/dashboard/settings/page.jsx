@@ -140,19 +140,27 @@ const NotificationSettings = ({ onBack }) => (
   </Card>
 );
 
-const AppearanceAccessibilitySettings = ({ onBack }) => (
-  <Card className="w-full">
-    <CardHeader className="relative">
-      <CardTitle className="flex items-center gap-2"><Palette className="w-5 h-5" /> Appearance & Accessibility</CardTitle>
-    </CardHeader>
-    <CardContent className="space-y-4">
-      <p className="text-muted-foreground">Customize the look and feel of the app.</p>
-      {/* Theme */}
-      <h3 className="text-lg font-semibold flex items-center gap-2"><Palette className="w-4 h-4" /> Theme</h3>
-      <div className="flex items-center justify-between">
-        <Label htmlFor="theme-toggle">Dark Mode</Label>
-        <Switch id="theme-toggle" defaultChecked />
-      </div>
+import { useTheme } from 'next-themes';
+
+const AppearanceAccessibilitySettings = ({ onBack }) => {
+  const { theme, setTheme } = useTheme();
+  return (
+    <Card className="w-full">
+      <CardHeader className="relative">
+        <CardTitle className="flex items-center gap-2"><Palette className="w-5 h-5" /> Appearance & Accessibility</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <p className="text-muted-foreground">Customize the look and feel of the app.</p>
+        {/* Theme */}
+        <h3 className="text-lg font-semibold flex items-center gap-2"><Palette className="w-4 h-4" /> Theme</h3>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="theme-toggle">Dark Mode</Label>
+          <Switch
+            id="theme-toggle"
+            checked={theme === 'dark'}
+            onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')}
+          />
+        </div>
 
       <Separator className="my-4" />
 
@@ -191,42 +199,52 @@ const AppearanceAccessibilitySettings = ({ onBack }) => (
   </Card>
 );
 
-const PrivacySecuritySettings = ({ onBack }) => (
-  <Card className="w-full">
-    <CardHeader className="relative">
-      <CardTitle className="flex items-center gap-2"><Shield className="w-5 h-5" /> Privacy & Security</CardTitle>
-    </CardHeader>
-    <CardContent className="space-y-4">
-      <p className="text-muted-foreground">Manage your privacy and security settings.</p>
-      {/* Manage Login Devices */}
-      <h3 className="text-lg font-semibold flex items-center gap-2"><Fingerprint className="w-4 h-4" /> Manage Login Devices</h3>
-      <p className="text-muted-foreground">View and manage devices logged into your account.</p>
-      <Button variant="outline" className="w-full justify-start">View Active Sessions</Button>
+const PrivacySecuritySettings = ({ onBack }) => {
+  const { locationAccessGranted, setLocationAccessGranted } = useAppStore();
+  return (
+    <Card className="w-full">
+      <CardHeader className="relative">
+        <CardTitle className="flex items-center gap-2"><Shield className="w-5 h-5" /> Privacy & Security</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <p className="text-muted-foreground">Manage your privacy and security settings.</p>
+        {/* Manage Login Devices */}
+        <h3 className="text-lg font-semibold flex items-center gap-2"><Fingerprint className="w-4 h-4" /> Manage Login Devices</h3>
+        <p className="text-muted-foreground">View and manage devices logged into your account.</p>
+        <Button variant="outline" className="w-full justify-start">View Active Sessions</Button>
 
-      <Separator className="my-4" />
+        <Separator className="my-4" />
 
-      {/* 2FA */}
-      <h3 className="text-lg font-semibold flex items-center gap-2"><Lock className="w-4 h-4" /> Two-Factor Authentication (2FA)</h3>
-      <p className="text-muted-foreground">Add an extra layer of security to your account.</p>
-      <Button variant="outline" className="w-full justify-start">Enable 2FA (Coming Soon)</Button>
+        {/* 2FA */}
+        <h3 className="text-lg font-semibold flex items-center gap-2"><Lock className="w-4 h-4" /> Two-Factor Authentication (2FA)</h3>
+        <p className="text-muted-foreground">Add an extra layer of security to your account.</p>
+        <Button variant="outline" className="w-full justify-start">Enable 2FA (Coming Soon)</Button>
 
-      <Separator className="my-4" />
+        <Separator className="my-4" />
 
-      {/* Location Permissions */}
-      <h3 className="text-lg font-semibold flex items-center gap-2"><MapPin className="w-4 h-4" /> Location Permissions</h3>
-      <p className="text-muted-foreground">Control app access to your device's location.</p>
-      <Button variant="outline" className="w-full justify-start">Manage Location Access</Button>
+        {/* Location Permissions */}
+        <h3 className="text-lg font-semibold flex items-center gap-2"><MapPin className="w-4 h-4" /> Location Permissions</h3>
+        <p className="text-muted-foreground">Control app access to your device's location.</p>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="location-permissions">Enable Location Access</Label>
+          <Switch
+            id="location-permissions"
+            checked={locationAccessGranted}
+            onCheckedChange={setLocationAccessGranted}
+          />
+        </div>
 
-      <Separator className="my-4" />
+        <Separator className="my-4" />
 
-      {/* Data Download/Export */}
-      <h3 className="text-lg font-semibold flex items-center gap-2"><DownloadCloud className="w-4 h-4" /> Data & Export</h3>
-      <p className="text-muted-foreground">Download your personal data or export attendance records.</p>
-      <Button variant="outline" className="w-full justify-start">Request Data Export</Button>
-      <Button>Save Privacy Settings</Button>
-    </CardContent>
-  </Card>
-);
+        {/* Data Download/Export */}
+        <h3 className="text-lg font-semibold flex items-center gap-2"><DownloadCloud className="w-4 h-4" /> Data & Export</h3>
+        <p className="text-muted-foreground">Download your personal data or export attendance records.</p>
+        <Button variant="outline" className="w-full justify-start">Request Data Export</Button>
+        <Button>Save Privacy Settings</Button>
+      </CardContent>
+    </Card>
+  );
+};
 
 const AppPreferencesSettings = ({ onBack }) => (
   <Card className="w-full">
