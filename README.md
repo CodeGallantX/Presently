@@ -33,6 +33,45 @@ The onboarding experience has been significantly improved to guide new users thr
     *   **Notifications:** Opt-in for in-app and push notifications for important updates.
     *   **Dark Mode Preference:** Set the preferred theme, with dark mode as the default.
 
+## Settings Page Enhancements
+
+The settings page has been significantly expanded to provide users with more control over their application experience and privacy.
+
+### Key Sections and Features:
+
+1.  **Account Settings:**
+    *   Basic profile editing (name, department, level, institution, country).
+    *   Password change functionality.
+    *   Integrations (e.g., Google Account connection).
+    *   Digital Signature management.
+2.  **Notification Settings:**
+    *   Control email notifications (attendance updates, announcements).
+    *   Manage in-app notifications (Sonner popups, dashboard alerts).
+    *   Toggle push notifications.
+    *   Configure attendance reminders (session start, daily summary, weekly report).
+3.  **Appearance & Accessibility:**
+    *   **Theme:** Dark mode / Light mode toggle.
+    *   **Text Size:** Option for Normal / Large text.
+    *   **High Contrast Mode:** Toggle for enhanced visual contrast.
+    *   **Language Preference:** Select preferred language (placeholder for future multilingual support).
+4.  **Privacy & Security:**
+    *   **Manage Login Devices:** View active sessions (placeholder).
+    *   **Two-Factor Authentication (2FA):** Placeholder for future implementation.
+    *   **Location Permissions:** Toggle GPS access for attendance verification.
+    *   **Data Download/Export:** Request personal data export (placeholder).
+5.  **App Preferences:**
+    *   **Default Dashboard View:** Choose between Attendance, Analytics, or Courses as the default view.
+    *   **Time Format:** Select 12-hour or 24-hour time format.
+    *   **Attendance Reminders:** Toggle reminders for before class, daily summaries, and weekly reports.
+6.  **Help & Support:**
+    *   **Report an Issue:** A new functional button that opens a dialog with a form for users to report bugs or issues, with an encouraging message.
+    *   FAQs, Contact Support, Legal (Terms & Conditions, Privacy Policy).
+
+### Other Updates:
+
+*   **404 Page Icon:** The icon displayed on 404 "Page Not Found" pages has been updated for a more user-friendly experience.
+*   **Logout Button:** A dedicated logout button has been added to the base of the settings page for easy access.
+
 ## Tech Stack
 
 *   **Framework:** [Next.js](https://nextjs.org/)
