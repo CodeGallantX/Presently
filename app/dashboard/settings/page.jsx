@@ -49,7 +49,7 @@ import {
 } from 'lucide-react';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import MobileNav from '@/components/dashboard/MobileNav';
-import { useAppStore } from '@/store/appStore'; // Adjust the import path as needed
+import { useAppStore } from '@/lib/store'; // Adjust the import path as needed
 import { cn } from '@/lib/utils';
 import ReportIssueDialog from '@/components/dashboard/ReportIssueDialog';
 
