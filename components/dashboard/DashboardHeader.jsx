@@ -5,10 +5,46 @@ import { Input } from '@/components/ui/input';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import ThemeToggle from '@/components/theme-toggle';
 import { useNotificationStore } from '@/lib/store';
+import { useAppStore } from '@/lib/store';
+import { useRouter } from 'next/navigation';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { motion } from 'framer-motion';
 
 const DashboardHeader = ({ title, showSidebarTrigger = false }) => {
-  const { unreadCount } = useNotificationStore();
+  const { unreadCount, addNotification, markAsRead } = useNotificationStore();
+  const { logout } = useAppStore();
+  const router = useRouter();
+
+  const handleBellClick = () => {
+    if (unreadCount > 0) {
+      // Mark all notifications as read for simplicity
+      // In a real app, you'd likely open a notification panel and mark them individually
+      console.log("Marking all notifications as read.");
+      // This is a placeholder, as markAsRead currently takes an ID. 
+      // We'd need to iterate through notifications or add a markAllAsRead action to the store.
+      // For now, let's just add a new notification to show interaction.
+      addNotification({ message: "You clicked the bell!", type: "info" });
+    } else {
+      console.log("No unread notifications. Adding a dummy one.");
+      addNotification({ message: "New announcement!", type: "announcement" });
+    }
+  };
+
+  const handleProfileClick = () => {
+    alert("Navigating to Profile (simulated)");
+    console.log("Profile clicked");
+  };
+
+  const handleSettingsClick = () => {
+    alert("Navigating to Settings (simulated)");
+    console.log("Settings clicked");
+  };
+
+  const handleLogout = () => {
+    logout();
+    router.push('/auth/signin');
+    console.log("Logged out");
+  };
 
   return (
     <motion.header
@@ -46,7 +82,7 @@ const DashboardHeader = ({ title, showSidebarTrigger = false }) => {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button variant="ghost" size="icon" className="relative">
+          <Button variant="ghost" size="icon" className="relative" onClick={handleBellClick}>
             <Bell className="w-5 h-5" />
             {unreadCount > 0 && (
               <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
@@ -54,9 +90,25 @@ const DashboardHeader = ({ title, showSidebarTrigger = false }) => {
               </span>
             )}
           </Button>
-          <Button variant="ghost" size="icon">
-            <User className="w-5 h-5" />
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <User className="w-5 h-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="end" forceMount>
+              <DropdownMenuItem onClick={handleProfileClick}>
+                Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleSettingsClick}>
+                Settings
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleLogout}>
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </motion.header>

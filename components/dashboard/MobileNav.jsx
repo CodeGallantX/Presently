@@ -3,6 +3,7 @@ import { Home, Calendar, Users, BarChart3, Settings } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const navItems = [
   { id: 'dashboard', icon: <Home className="w-5 h-5" />, label: 'Home' },
@@ -29,29 +30,36 @@ const MobileNav = ({ activeTab = 'dashboard' }) => {
     >
       <div className="flex items-center justify-around px-2 py-2">
         {navItems.map((item, index) => (
-          <motion.button
-            key={item.id}
-            className={cn(
-              "mobile-nav-item relative",
-              activeTab === item.id && "active"
-            )}
-            whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            onClick={() => handleNavigation(item.id)}
-          >
-            <div className="relative">
-              {item.icon}
-              {activeTab === item.id && (
-                <motion.div
-                  className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full"
-                  layoutId="activeIndicator"
-                />
-              )}
-            </div>
-            <span className="font-medium">{item.label}</span>
-          </motion.button>
+          <TooltipProvider key={item.id}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <motion.button
+                  className={cn(
+                    "mobile-nav-item relative",
+                    activeTab === item.id && "active"
+                  )}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  onClick={() => handleNavigation(item.id)}
+                >
+                  <div className="relative">
+                    {item.icon}
+                    {activeTab === item.id && (
+                      <motion.div
+                        className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full"
+                        layoutId="activeIndicator"
+                      />
+                    )}
+                  </div>
+                </motion.button>
+              </TooltipTrigger>
+              <TooltipContent side="top">
+                {item.label}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         ))}
       </div>
     </motion.nav>

@@ -10,23 +10,47 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/lib/store";
+import { toast } from "sonner";
 
 const AuthLayout = ({ page }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('');
   const router = useRouter();
   const { setUser, setUserRole } = useAppStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate API call
+
+    let role = 'student'; // Default role
+    let userName = 'Test User';
+
+    if (email === 'error@presently.io') {
+      setTimeout(() => {
+        setIsLoading(false);
+        toast.error("Login failed! Invalid credentials.");
+      }, 1500);
+      return;
+    }
+
+    if (email === 'staff@presently.io') {
+      role = 'lecturer';
+      userName = 'Staff User';
+    } else if (email === 'hoc@presently.io') {
+      role = 'class-rep';
+      userName = 'HOC User';
+    } else if (email === 'user@presently.io') {
+      role = 'student';
+      userName = 'Student User';
+    }
+
     setTimeout(() => {
       setIsLoading(false);
-      // Simulate successful login
-      setUser({ name: 'Test User', email: 'test@example.com' }); // Set a dummy user
-      setUserRole('student'); // Set a default role
-      router.push('/dashboard'); // Redirect to dashboard after login
+      setUser({ name: userName, email: email });
+      setUserRole(role);
+      toast.success(`${config.cta} successful! Welcome, ${userName}.`);
+      router.push('/dashboard');
     }, 1500);
   };
 
@@ -136,6 +160,8 @@ const AuthLayout = ({ page }) => {
                   placeholder="Enter your email"
                   className="h-12 text-base"
                   required 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </motion.div>
 

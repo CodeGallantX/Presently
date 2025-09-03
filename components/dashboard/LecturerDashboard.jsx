@@ -13,7 +13,8 @@ import {
   MapPin,
   BarChart3,
   BookOpen,
-  Settings
+  Settings,
+  QrCode
 } from "lucide-react";
 import { 
   SidebarProvider, 
@@ -28,8 +29,13 @@ import {
 } from "@/components/ui/sidebar";
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import { cn } from '@/lib/utils';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import CreateSessionModal from '@/components/dashboard/CreateSessionModal';
+import QrCodeModal from '@/components/dashboard/QrCodeModal';
 
 const LecturerDashboard = () => {
+  const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] = useState(false);
+  const [isQrCodeModalOpen, setIsQrCodeModalOpen] = useState(false);
   const [activeSession, setActiveSession] = useState(null);
   const [courses] = useState([
     { id: 1, name: 'Mathematics 101', students: 45, attendance: 89 },
@@ -52,13 +58,9 @@ const LecturerDashboard = () => {
     { icon: <Settings className="w-4 h-4" />, label: 'Settings' },
   ];
 
-  const startSession = () => {
-    setActiveSession({
-      course: 'Mathematics 101',
-      startTime: new Date(),
-      present: 0,
-      total: 45
-    });
+  const handleCreateSession = (newSession) => {
+    setActiveSession(newSession);
+    setIsCreateSessionModalOpen(false);
   };
 
   const endSession = () => {
@@ -66,8 +68,9 @@ const LecturerDashboard = () => {
   };
 
   return (
-    <SidebarProvider defaultOpen={true}>
-      <div className="flex min-h-screen bg-background">
+    <>
+      <SidebarProvider defaultOpen={true}>
+        <div className="flex min-h-screen bg-background">
         {/* Desktop Sidebar */}
         <Sidebar className="hidden md:flex">
           <SidebarHeader className="p-6">
@@ -117,14 +120,19 @@ const LecturerDashboard = () => {
                 <CardContent className="p-8">
                   {activeSession ? (
                     <div className="text-center">
-                      <div className="w-16 h-16 bg-green-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                      </div>
-                      <h3 className="text-xl font-bold mb-2">Session Active</h3>
-                      <p className="text-muted-foreground mb-4">{activeSession.course}</p>
-                      <div className="flex justify-center gap-4 text-sm">
-                        <span className="text-green-400">{activeSession.present} Present</span>
-                        <span className="text-muted-foreground">of {activeSession.total}</span>
+                      <h3 className="text-xl font-bold mb-2">Active Session: {activeSession.courseName}</h3>
+                      <p className="text-muted-foreground mb-4">Venue: {activeSession.venueName}</p>
+                      <div className="flex items-center justify-center gap-4 mb-6">
+                        <div className="space-y-2">
+                          <Label className="text-sm text-muted-foreground">Session Code</Label>
+                          <div className="text-3xl font-bold text-primary">{activeSession.sessionCode}</div>
+                        </div>
+                        <div className="space-y-2">
+                          <Label className="text-sm text-muted-foreground">QR Code</Label>
+                          <Button variant="outline" size="icon" onClick={() => setIsQrCodeModalOpen(true)}>
+                            <QrCode className="w-6 h-6" />
+                          </Button>
+                        </div>
                       </div>
                       <Button variant="outline" className="mt-4 w-full" onClick={endSession}>
                         End Session
@@ -139,7 +147,7 @@ const LecturerDashboard = () => {
                       <p className="text-muted-foreground mb-6">
                         Begin taking attendance for your class
                       </p>
-                      <Button onClick={startSession} className="cta-button w-full group">
+                      <Button onClick={() => setIsCreateSessionModalOpen(true)} className="cta-button w-full group">
                         <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
                         Start Session
                       </Button>
@@ -291,7 +299,20 @@ const LecturerDashboard = () => {
         </SidebarInset>
       </div>
     </SidebarProvider>
-  );
-};
+
+    <CreateSessionModal
+      isOpen={isCreateSessionModalOpen}
+      onClose={() => setIsCreateSessionModalOpen(false)}
+      onCreateSession={handleCreateSession}
+    />
+
+    <QrCodeModal
+      isOpen={isQrCodeModalOpen}
+      onClose={() => setIsQrCodeModalOpen(false)}
+      qrCodeUrl={activeSession?.qrCodeUrl}
+      sessionCode={activeSession?.sessionCode}
+    />
+  </>
+);
 
 export default LecturerDashboard;
