@@ -1,6 +1,8 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import dynamic from 'next/dynamic';
+const motion = dynamic(() => import('framer-motion').then(mod => mod.motion), { ssr: false });
+const useInView = dynamic(() => import('framer-motion').then(mod => mod.useInView), { ssr: false });
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Play, Sparkles, Zap } from "lucide-react";

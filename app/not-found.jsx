@@ -2,7 +2,8 @@
 import Link from 'next/link';
 import { Frown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
+const motion = dynamic(() => import('framer-motion').then(mod => mod.motion), { ssr: false });
 
 export default function NotFound() {
   return (

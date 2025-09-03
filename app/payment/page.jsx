@@ -1,7 +1,8 @@
 
 'use client';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
+const motion = dynamic(() => import('framer-motion').then(mod => mod.motion), { ssr: false });
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

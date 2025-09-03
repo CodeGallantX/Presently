@@ -8,7 +8,8 @@ import ThemeToggle from '@/components/theme-toggle';
 import { useAppStore } from '@/lib/store';
 import { useRouter } from 'next/navigation';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
+const motion = dynamic(() => import('framer-motion').then(mod => mod.motion), { ssr: false });
 
 import NotificationDropdown from './NotificationDropdown';
 

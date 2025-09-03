@@ -4,7 +4,8 @@
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Frown } from 'lucide-react';
-import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
+const motion = dynamic(() => import('framer-motion').then(mod => mod.motion), { ssr: false });
 
 export default function Error({ error, reset }) {
   useEffect(() => {
