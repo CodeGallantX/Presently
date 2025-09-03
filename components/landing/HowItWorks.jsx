@@ -2,6 +2,8 @@
 import { useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { UserPlus, QrCode, BarChart3, Download, ArrowRight } from "lucide-react";
 
 const steps = [

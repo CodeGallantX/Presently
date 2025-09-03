@@ -7,6 +7,7 @@ import ThemeToggle from "@/components/theme-toggle";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/lib/store";
+import { motion } from "framer-motion";
 
 const navLinks = [
   { href: "#features", label: "Features" },

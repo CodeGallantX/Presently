@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { GraduationCap, Users, BookOpen, ArrowRight, ArrowLeft, Check } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 

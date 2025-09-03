@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { MapPin, Calendar, LayoutDashboard, ShieldCheck, FileDown, Smile, Zap, Users, TrendingUp } from "lucide-react";
 
 const features = [

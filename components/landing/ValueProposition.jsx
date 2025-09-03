@@ -1,6 +1,8 @@
 'use client';
 import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { CheckCircle, Zap, Shield, TrendingUp, Clock, Users } from "lucide-react";
 
 const benefits = [
