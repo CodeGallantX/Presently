@@ -82,8 +82,10 @@ const Pricing = ({ setActiveSection }) => {
     }
   }, [isInView, setActiveSection]);
 
-  const handleCtaClick = (cta) => {
-    if (cta.includes("Sign Up") || cta.includes("Trial")) {
+  const handleCtaClick = (cta, planTitle) => {
+    if (planTitle === "Lecturers") {
+      router.push('/payment');
+    } else if (cta.includes("Sign Up")) {
       router.push('/auth/signup');
     } else if (cta.includes("Contact")) {
       window.location.href = "mailto:sales@presently.app";
@@ -192,7 +194,7 @@ const Pricing = ({ setActiveSection }) => {
 
                 <CardFooter className="pt-8">
                   <Button 
-                    onClick={() => handleCtaClick(plan.cta)}
+                    onClick={() => handleCtaClick(plan.cta, plan.title)}
                     variant={plan.popular ? 'default' : 'outline'}
                     className={cn(
                       "w-full py-6 font-semibold transition-all duration-200",
