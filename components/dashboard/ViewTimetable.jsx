@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button"; // Import Button
 import {
   Table,
   TableHeader,
@@ -18,7 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Filter } from "lucide-react"; // Import Filter
+import { useIsMobile } from "@/hooks/use-mobile"; // Import useIsMobile hook
 
 // Mock data for merged timetable entries (from Lecturer + Course Rep-created timetables)
 const mockMergedTimetableEntries = [
@@ -103,6 +105,8 @@ export default function ViewTimetable() {
   const [selectedCourseCode, setSelectedCourseCode] = useState("ALL");
   const [selectedDay, setSelectedDay] = useState("ALL");
   const [selectedStatus, setSelectedStatus] = useState("ALL");
+  const [showFilters, setShowFilters] = useState(false); // State for filter visibility
+  const isMobile = useIsMobile(); // Detect mobile device
 
   const filteredEntries = useMemo(() => {
     return mockMergedTimetableEntries.filter((entry) => {
@@ -130,50 +134,64 @@ export default function ViewTimetable() {
         </CardHeader>
         <CardContent className="pt-0 space-y-4">
           {/* Filters and Search */}
-          <div className="flex flex-col md:flex-row gap-4 mb-4">
-            <Input
-              placeholder="Search by course name or code..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full md:flex-1"
-            />
-            <Select onValueChange={setSelectedCourseCode} value={selectedCourseCode}>
-              <SelectTrigger className="w-full md:w-[180px]">
-                <SelectValue placeholder="Filter by Course" />
-              </SelectTrigger>
-              <SelectContent>
-                {mockCourses.map((course) => (
-                  <SelectItem key={course.code} value={course.code}>
-                    {course.name} ({course.code})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select onValueChange={setSelectedDay} value={selectedDay}>
-              <SelectTrigger className="w-full md:w-[180px]">
-                <SelectValue placeholder="Filter by Day" />
-              </SelectTrigger>
-              <SelectContent>
-                {mockDays.map((day) => (
-                  <SelectItem key={day.value} value={day.value}>
-                    {day.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select onValueChange={setSelectedStatus} value={selectedStatus}>
-              <SelectTrigger className="w-full md:w-[180px]">
-                <SelectValue placeholder="Filter by Status" />
-              </SelectTrigger>
-              <SelectContent>
-                {mockStatuses.map((status) => (
-                  <SelectItem key={status.value} value={status.value}>
-                    {status.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {isMobile && (
+            <div className="flex justify-end mb-4">
+              <Button
+                variant="outline"
+                onClick={() => setShowFilters(!showFilters)}
+                className="flex items-center gap-2"
+              >
+                <Filter className="w-4 h-4" />
+                {showFilters ? "Hide Filters" : "Show Filters"}
+              </Button>
+            </div>
+          )}
+          {(!isMobile || showFilters) && (
+            <div className="flex flex-col md:flex-row gap-4 mb-4">
+              <Input
+                placeholder="Search by course name or code..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full md:flex-1"
+              />
+              <Select onValueChange={setSelectedCourseCode} value={selectedCourseCode}>
+                <SelectTrigger className="w-full md:w-[180px]">
+                  <SelectValue placeholder="Filter by Course" />
+                </SelectTrigger>
+                <SelectContent>
+                  {mockCourses.map((course) => (
+                    <SelectItem key={course.code} value={course.code}>
+                      {course.name} ({course.code})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Select onValueChange={setSelectedDay} value={selectedDay}>
+                <SelectTrigger className="w-full md:w-[180px]">
+                  <SelectValue placeholder="Filter by Day" />
+                </SelectTrigger>
+                <SelectContent>
+                  {mockDays.map((day) => (
+                    <SelectItem key={day.value} value={day.value}>
+                      {day.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Select onValueChange={setSelectedStatus} value={selectedStatus}>
+                <SelectTrigger className="w-full md:w-[180px]">
+                  <SelectValue placeholder="Filter by Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  {mockStatuses.map((status) => (
+                    <SelectItem key={status.value} value={status.value}>
+                      {status.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
 
           {/* Timetable Table */}
           {filteredEntries.length === 0 ? (

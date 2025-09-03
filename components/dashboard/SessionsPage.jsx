@@ -6,8 +6,9 @@ import MobileNav from "@/components/dashboard/MobileNav";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { File, Download, CalendarPlus, CalendarDays } from "lucide-react"; // Import new icons
+import { File, Download, CalendarPlus, CalendarDays, Filter } from "lucide-react"; // Import new icons
 import { SessionCard } from "./SessionCard";
+
 import { SessionsTable } from "./SessionsTable";
 import {
   Select,
@@ -19,6 +20,8 @@ import {
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Link from "next/link"; // Import Link
+import { useIsMobile } from "@/hooks/use-mobile"; // Import useIsMobile hook
+
 
 const mockSessionRecords = [
   {
@@ -100,6 +103,8 @@ export default function SessionsPage() {
   const [selectedCourseCode, setSelectedCourseCode] = useState(mockCourses[0].code);
   const [selectedStatus, setSelectedStatus] = useState("ALL");
   const [sortBy, setSortBy] = useState("newest");
+  const [showFilters, setShowFilters] = useState(false); // State for filter visibility
+  const isMobile = useIsMobile(); // Detect mobile device
 
   // For MVP, hardcode user role. In a real app, this would come from auth context.
   const isCourseRep = true; // Set to true to show "Manage Timetable" button
@@ -235,58 +240,72 @@ export default function SessionsPage() {
         </Card>
 
         {/* Filters, Export, and Timetable Buttons */}
-        <div className="flex flex-col md:flex-row gap-4 items-center">
-          <Select onValueChange={setSelectedStatus} value={selectedStatus}>
-            <SelectTrigger className="w-full md:w-[180px]">
-              <SelectValue placeholder="Filter by Status" />
-            </SelectTrigger>
-            <SelectContent>
-              {mockStatuses.map((status) => (
-                <SelectItem key={status.value} value={status.value}>
-                  {status.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        {isMobile && (
+          <div className="flex justify-end mb-4">
+            <Button
+              variant="outline"
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-2"
+            >
+              <Filter className="w-4 h-4" />
+              {showFilters ? "Hide Filters" : "Show Filters"}
+            </Button>
+          </div>
+        )}
+        {(!isMobile || showFilters) && (
+          <div className="flex flex-col md:flex-row gap-4 items-center">
+            <Select onValueChange={setSelectedStatus} value={selectedStatus}>
+              <SelectTrigger className="w-full md:w-[180px]">
+                <SelectValue placeholder="Filter by Status" />
+              </SelectTrigger>
+              <SelectContent>
+                {mockStatuses.map((status) => (
+                  <SelectItem key={status.value} value={status.value}>
+                    {status.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
-          <RadioGroup
-            value={sortBy}
-            onValueChange={setSortBy}
-            className="flex gap-4"
-          >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="newest" id="newest" />
-              <Label htmlFor="newest">Newest</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="oldest" id="oldest" />
-              <Label htmlFor="oldest">Oldest</Label>
-            </div>
-          </RadioGroup>
+            <RadioGroup
+              value={sortBy}
+              onValueChange={setSortBy}
+              className="flex gap-4"
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="newest" id="newest" />
+                <Label htmlFor="newest">Newest</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="oldest" id="oldest" />
+                <Label htmlFor="oldest">Oldest</Label>
+              </div>
+            </RadioGroup>
 
-          <Button onClick={exportToCsv} variant="outline" className="w-full md:w-auto md:ml-auto">
-            <Download className="w-4 h-4 mr-2" />
-            Export CSV
-          </Button>
+            <Button onClick={exportToCsv} variant="outline" className="w-full md:w-auto md:ml-auto">
+              <Download className="w-4 h-4 mr-2" />
+              Export CSV
+            </Button>
 
-          {isCourseRep && (
-            <Link href="/dashboard/timetable-management" passHref>
-              <Button variant="outline" className="w-full md:w-auto">
-                <CalendarPlus className="w-4 h-4 mr-2" />
-                Manage Timetable
-              </Button>
-            </Link>
-          )}
+            {isCourseRep && (
+              <Link href="/dashboard/timetable-management" passHref>
+                <Button variant="outline" className="w-full md:w-auto">
+                  <CalendarPlus className="w-4 h-4 mr-2" />
+                  Manage Timetable
+                </Button>
+              </Link>
+            )}
 
-          {isStudent && (
-            <Link href="/dashboard/view-timetable" passHref>
-              <Button variant="outline" className="w-full md:w-auto">
-                <CalendarDays className="w-4 h-4 mr-2" />
-                View Timetable
-              </Button>
-            </Link>
-          )}
-        </div>
+            {isStudent && (
+              <Link href="/dashboard/view-timetable" passHref>
+                <Button variant="outline" className="w-full md:w-auto">
+                  <CalendarDays className="w-4 h-4 mr-2" />
+                  View Timetable
+                </Button>
+              </Link>
+            )}
+          </div>
+        )}
 
         {/* Sessions List */}
         {filteredAndSortedSessions.length === 0 ? (

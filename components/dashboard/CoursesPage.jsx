@@ -3,7 +3,20 @@
 import { useState, useMemo } from "react";
 import { CourseCard } from "./CourseCard";
 import { CoursesTable } from "./CoursesTable";
-import { File } from "lucide-react";
+import { File, Filter } from "lucide-react";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import MobileNav from "@/components/dashboard/MobileNav";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button"; // Import Button
+import { useIsMobile } from "@/hooks/use-mobile"; // Import useIsMobile hook
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import MobileNav from "@/components/dashboard/MobileNav";
 import { Input } from "@/components/ui/input";
@@ -87,6 +100,8 @@ export default function CoursesPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSemester, setSelectedSemester] = useState("ALL");
   const [selectedStatus, setSelectedStatus] = useState("ALL");
+  const [showFilters, setShowFilters] = useState(false); // State for filter visibility
+  const isMobile = useIsMobile(); // Detect mobile device
 
   const filteredCourses = useMemo(() => {
     return courses.filter((course) => {
@@ -123,38 +138,52 @@ export default function CoursesPage() {
       <DashboardHeader title="My Courses" />
       <div className="pt-16 pb-16 px-4 md:px-8 lg:px-12 space-y-4 min-h-[calc(100vh-64px)]"> {/* Adjusted horizontal padding and added min-height */}
         {/* Search and Filters */}
-        <div className="flex flex-col md:flex-row gap-4 mb-4">
-          <Input
-            placeholder="Search by course name or code..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full md:flex-1"
-          />
-          <Select onValueChange={setSelectedSemester} value={selectedSemester}>
-            <SelectTrigger className="w-full md:w-[180px]">
-              <SelectValue placeholder="Filter by Semester" />
-            </SelectTrigger>
-            <SelectContent>
-              {mockSemesters.map((semester) => (
-                <SelectItem key={semester.value} value={semester.value}>
-                  {semester.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Select onValueChange={setSelectedStatus} value={selectedStatus}>
-            <SelectTrigger className="w-full md:w-[180px]">
-              <SelectValue placeholder="Filter by Status" />
-            </SelectTrigger>
-            <SelectContent>
-              {mockStatuses.map((status) => (
-                <SelectItem key={status.value} value={status.value}>
-                  {status.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        {isMobile && (
+          <div className="flex justify-end mb-4">
+            <Button
+              variant="outline"
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-2"
+            >
+              <Filter className="w-4 h-4" />
+              {showFilters ? "Hide Filters" : "Show Filters"}
+            </Button>
+          </div>
+        )}
+        {(!isMobile || showFilters) && (
+          <div className="flex flex-col md:flex-row gap-4 mb-4">
+            <Input
+              placeholder="Search by course name or code..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full md:flex-1"
+            />
+            <Select onValueChange={setSelectedSemester} value={selectedSemester}>
+              <SelectTrigger className="w-full md:w-[180px]">
+                <SelectValue placeholder="Filter by Semester" />
+              </SelectTrigger>
+              <SelectContent>
+                {mockSemesters.map((semester) => (
+                  <SelectItem key={semester.value} value={semester.value}>
+                    {semester.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select onValueChange={setSelectedStatus} value={selectedStatus}>
+              <SelectTrigger className="w-full md:w-[180px]">
+                <SelectValue placeholder="Filter by Status" />
+              </SelectTrigger>
+              <SelectContent>
+                {mockStatuses.map((status) => (
+                  <SelectItem key={status.value} value={status.value}>
+                    {status.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         {filteredCourses.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">

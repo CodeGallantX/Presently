@@ -52,6 +52,7 @@ import MobileNav from '@/components/dashboard/MobileNav';
 import { useAppStore } from '@/lib/store'; // Adjust the import path as needed
 import { cn } from '@/lib/utils';
 import ReportIssueDialog from '@/components/dashboard/ReportIssueDialog';
+import AppsAndIntegrations from '@/components/dashboard/AppsAndIntegrations';
 
 // Sub-components for settings sections
 const AccountSettings = ({ onBack }) => (
@@ -374,6 +375,7 @@ const settingsCategories = [
   { id: 'appearance', label: 'Appearance & Accessibility', icon: <Palette className="w-5 h-5" />, component: AppearanceAccessibilitySettings },
   { id: 'privacy', label: 'Privacy & Security', icon: <Shield className="w-5 h-5" />, component: PrivacySecuritySettings },
   { id: 'preferences', label: 'App Preferences', icon: <LayoutDashboard className="w-5 h-5" />, component: AppPreferencesSettings },
+  { id: 'integrations', label: 'Apps & Integrations', icon: <Link className="w-5 h-5" />, component: AppsAndIntegrations },
   { id: 'help', label: 'Help & Support', icon: <HelpCircle className="w-5 h-5" />, component: (props) => <HelpSupportSettings {...props} /> },
 ];
 
