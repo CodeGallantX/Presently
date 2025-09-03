@@ -1,15 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, XCircle, Clock } from "lucide-react"; // Icons for status
 
-export function AttendanceCard({ record }) {
+export function SessionCard({ record }) { // Renamed from AttendanceCard
   const getStatusIcon = (status) => {
     switch (status) {
       case "Present":
         return <CheckCircle2 className="w-5 h-5 text-green-500" />;
       case "Absent":
         return <XCircle className="w-5 h-5 text-red-500" />;
-      case "Pending":
-        return <Clock className="w-5 h-5 text-yellow-500" />;
+      case "Not Yet Marked": // New status
+        return <Clock className="w-5 h-5 text-blue-500" />;
       default:
         return null;
     }
@@ -21,8 +21,8 @@ export function AttendanceCard({ record }) {
         return "bg-green-100 text-green-800";
       case "Absent":
         return "bg-red-100 text-red-800";
-      case "Pending":
-        return "bg-yellow-100 text-yellow-800";
+      case "Not Yet Marked": // New status
+        return "bg-blue-100 text-blue-800";
       default:
         return "";
     }
@@ -33,7 +33,7 @@ export function AttendanceCard({ record }) {
       <CardHeader className="pb-3">
         <div className="flex justify-between items-start">
           <div>
-            <CardTitle className="text-lg">{record.courseName}</CardTitle>
+            <CardTitle className="text-lg">{record.sessionTitle}</CardTitle> {/* Changed to sessionTitle */}
             <p className="text-sm text-muted-foreground">{record.courseCode}</p>
           </div>
           <span

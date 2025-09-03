@@ -6,31 +6,34 @@ import { BarChart2, CalendarDays } from "lucide-react"; // Import icons
 
 export function CourseCard({ course }) {
   return (
-    <Card className="mb-4 dashboard-card"> {/* Added dashboard-card class */}
-      <CardHeader className="pb-3"> {/* Adjusted padding */}
+    <Card className="mb-4 dashboard-card">
+      <CardHeader className="pb-3">
         <div className="flex justify-between items-start">
           <div>
-            <CardTitle className="text-lg">{course.name}</CardTitle> {/* Adjusted font size */}
-            <p className="text-sm text-muted-foreground">{course.code}</p> {/* Used muted-foreground */}
+            <CardTitle className="text-lg">{course.name}</CardTitle>
+            <p className="text-sm text-muted-foreground">{course.code}</p>
+            {course.lecturer && ( // Conditionally display lecturer
+              <p className="text-xs text-muted-foreground">Lecturer: {course.lecturer}</p>
+            )}
           </div>
           <span
             className={`px-3 py-1 text-xs font-semibold rounded-full ${
               course.status === "Ongoing"
-                ? "bg-primary/10 text-primary" // Theme-aligned colors
-                : "bg-secondary/10 text-secondary-foreground" // Theme-aligned colors
+                ? "bg-primary/10 text-primary"
+                : "bg-secondary/10 text-secondary-foreground"
             }`}
           >
             {course.status}
           </span>
         </div>
       </CardHeader>
-      <CardContent className="pt-0"> {/* Adjusted padding */}
-        <div className="space-y-2"> {/* Added spacing */}
+      <CardContent className="pt-0">
+        <div className="space-y-2">
           <div className="flex justify-between items-center">
             <span className="text-sm text-muted-foreground">Attendance</span>
             <span className="text-sm font-medium">{course.attendance}%</span>
           </div>
-          <Progress value={course.attendance} className="h-2" /> {/* Adjusted height */}
+          <Progress value={course.attendance} className="h-2" />
           <p className="text-xs text-muted-foreground">
             {course.sessions.completed} of {course.sessions.total} sessions attended
           </p>
@@ -38,13 +41,13 @@ export function CourseCard({ course }) {
         <div className="flex justify-end space-x-2 mt-4">
           <Link href={`/dashboard/analytics?course=${course.code}`} passHref>
             <Button variant="outline" size="sm">
-              <BarChart2 className="h-4 w-4 mr-2" /> {/* Icon */}
+              <BarChart2 className="h-4 w-4 mr-2" />
               View Analytics
             </Button>
           </Link>
           <Link href={`/dashboard/courses/${course.code}/sessions`} passHref>
             <Button variant="outline" size="sm">
-              <CalendarDays className="h-4 w-4 mr-2" /> {/* Icon */}
+              <CalendarDays className="h-4 w-4 mr-2" />
               View Sessions
             </Button>
           </Link>
