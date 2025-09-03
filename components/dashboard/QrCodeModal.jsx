@@ -17,7 +17,7 @@ const QrCodeModal = ({ isOpen, onClose, qrCodeUrl, sessionCode }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-full sm:max-w-[425px] p-6 text-center">
+      <DialogContent className="w-full sm:max-w-[425px] p-6 text-center overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">Session QR Code</DialogTitle>
           <DialogDescription>

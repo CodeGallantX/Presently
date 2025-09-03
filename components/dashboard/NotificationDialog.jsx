@@ -8,7 +8,7 @@ const NotificationDialog = ({ isOpen, onClose, notification }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="w-full sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Notification Details</DialogTitle>
         </DialogHeader>
