@@ -1,10 +1,10 @@
 'use client';
 import { useState } from 'react';
-
+import { useRouter } from 'next/navigation';
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { QrCode, MapPin, Clock, TrendingUp, Calendar, Settings, User, Bell, BookOpen } from "lucide-react";
+import { QrCode, MapPin, Clock, TrendingUp, Calendar, Settings, User, Bell, BookOpen, BarChart3 } from "lucide-react";
 import MobileNav from '@/components/dashboard/MobileNav';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import { cn } from '@/lib/utils';
@@ -169,7 +169,30 @@ const StudentDashboard = () => {
             </CardContent>
           </Card>
         </motion.div>
+      </motion.div>
       </main>
+
+        {/* Analytics Link */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <Card className="dashboard-card">
+            <CardContent className="p-8 text-center">
+              <div className="w-20 h-20 bg-purple-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <BarChart3 className="w-10 h-10 text-purple-500" />
+              </div>
+              <h2 className="text-2xl font-bold mb-2">View Your Analytics</h2>
+              <p className="text-muted-foreground mb-6">
+                Explore detailed insights into your attendance trends and performance.
+              </p>
+              <Button className="cta-button group" onClick={() => router.push('/dashboard/analytics')}>
+                View Analytics
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
 
       <MobileNav activeTab="dashboard" />
 
