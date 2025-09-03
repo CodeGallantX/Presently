@@ -6,9 +6,9 @@ import MobileNav from "@/components/dashboard/MobileNav";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { File, Download } from "lucide-react";
-import { SessionCard } from "./SessionCard"; // Updated import
-import { SessionsTable } from "./SessionsTable"; // Updated import
+import { File, Download, CalendarPlus, CalendarDays } from "lucide-react"; // Import new icons
+import { SessionCard } from "./SessionCard";
+import { SessionsTable } from "./SessionsTable";
 import {
   Select,
   SelectContent,
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import Link from "next/link"; // Import Link
 
 const mockSessionRecords = [
   {
@@ -96,9 +97,13 @@ const mockStatuses = [
 ];
 
 export default function SessionsPage() {
-  const [selectedCourseCode, setSelectedCourseCode] = useState(mockCourses[0].code); // Default to first course
+  const [selectedCourseCode, setSelectedCourseCode] = useState(mockCourses[0].code);
   const [selectedStatus, setSelectedStatus] = useState("ALL");
-  const [sortBy, setSortBy] = useState("newest"); // 'newest' or 'oldest'
+  const [sortBy, setSortBy] = useState("newest");
+
+  // For MVP, hardcode user role. In a real app, this would come from auth context.
+  const isCourseRep = true; // Set to true to show "Manage Timetable" button
+  const isStudent = true; // Set to true to show "View Timetable" button
 
   const sessionsForSelectedCourse = useMemo(() => {
     return mockSessionRecords.filter(
@@ -111,7 +116,6 @@ export default function SessionsPage() {
       return selectedStatus === "ALL" || record.status === selectedStatus;
     });
 
-    // Sort by date
     filtered.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
@@ -128,7 +132,7 @@ export default function SessionsPage() {
   const sessionsMissed = sessionsForSelectedCourse.filter(
     (record) => record.status === "Absent"
   ).length;
-  const attendancePercentage = 
+  const attendancePercentage =
     totalSessions > 0 ? Math.round((sessionsAttended / totalSessions) * 100) : 0;
 
   const getMotivationalMessage = (percentage) => {
@@ -178,7 +182,7 @@ export default function SessionsPage() {
   return (
     <>
       <DashboardHeader title="My Sessions" />
-      <div className="pt-16 pb-16 px-4 space-y-6">
+      <div className="pt-16 pb-16 px-4 md:px-8 lg:px-12 space-y-6 min-h-[calc(100vh-64px)]"> {/* Adjusted horizontal padding and added min-height */}
         {/* Course Selector */}
         <Card className="dashboard-card">
           <CardHeader className="pb-3">
@@ -219,6 +223,10 @@ export default function SessionsPage() {
                 <p className="text-2xl font-bold">{sessionsMissed}</p>
                 <p className="text-sm text-muted-foreground">Missed</p>
               </div>
+              <div className="flex flex-col items-center justify-center p-4 bg-primary/20 rounded-lg">
+                <p className="text-2xl font-bold">{attendancePercentage}%</p>
+                <p className="text-sm text-muted-foreground">Attendance</p>
+              </div>
             </div>
             <p className="text-center text-lg font-semibold">
               {getMotivationalMessage(attendancePercentage)}
@@ -226,7 +234,7 @@ export default function SessionsPage() {
           </CardContent>
         </Card>
 
-        {/* Filters and Export */}
+        {/* Filters, Export, and Timetable Buttons */}
         <div className="flex flex-col md:flex-row gap-4 items-center">
           <Select onValueChange={setSelectedStatus} value={selectedStatus}>
             <SelectTrigger className="w-full md:w-[180px]">
@@ -260,6 +268,24 @@ export default function SessionsPage() {
             <Download className="w-4 h-4 mr-2" />
             Export CSV
           </Button>
+
+          {isCourseRep && (
+            <Link href="/dashboard/timetable-management" passHref>
+              <Button variant="outline" className="w-full md:w-auto">
+                <CalendarPlus className="w-4 h-4 mr-2" />
+                Manage Timetable
+              </Button>
+            </Link>
+          )}
+
+          {isStudent && (
+            <Link href="/dashboard/view-timetable" passHref>
+              <Button variant="outline" className="w-full md:w-auto">
+                <CalendarDays className="w-4 h-4 mr-2" />
+                View Timetable
+              </Button>
+            </Link>
+          )}
         </div>
 
         {/* Sessions List */}
@@ -271,7 +297,7 @@ export default function SessionsPage() {
           </div>
         ) : (
           <>
-            <div className="md:hidden space-y-4">
+            <div className="md:hidden">
               {filteredAndSortedSessions.map((record) => (
                 <SessionCard key={record.id} record={record} />
               ))}

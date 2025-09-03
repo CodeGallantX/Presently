@@ -8,7 +8,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 const navItems = [
   { id: 'dashboard', icon: <Home className="w-5 h-5" />, label: 'Home' },
-  { id: 'attendance', icon: <Calendar className="w-5 h-5" />, label: 'Attendance' },
+  { id: 'attendance', icon: <Calendar className="w-5 h-5" />, label: 'Session' },
   { id: 'courses', icon: <Users className="w-5 h-5" />, label: 'Courses' },
   { id: 'analytics', icon: <BarChart3 className="w-5 h-5" />, label: 'Analytics' },
   { id: 'settings', icon: <Settings className="w-5 h-5" />, label: 'Settings' },

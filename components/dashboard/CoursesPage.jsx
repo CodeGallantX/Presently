@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ScrollArea } from "@/components/ui/scroll-area"; // Import ScrollArea
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const courses = [
   {
@@ -121,7 +121,7 @@ export default function CoursesPage() {
   return (
     <>
       <DashboardHeader title="My Courses" />
-      <div className="pt-16 pb-16 px-4 md:px-8 lg:px-12 space-y-4"> {/* Adjusted horizontal padding */}
+      <div className="pt-16 pb-16 px-4 md:px-8 lg:px-12 space-y-4 min-h-[calc(100vh-64px)]"> {/* Adjusted horizontal padding and added min-height */}
         {/* Search and Filters */}
         <div className="flex flex-col md:flex-row gap-4 mb-4">
           <Input
