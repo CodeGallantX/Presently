@@ -374,7 +374,7 @@ const settingsCategories = [
   { id: 'appearance', label: 'Appearance & Accessibility', icon: <Palette className="w-5 h-5" />, component: AppearanceAccessibilitySettings },
   { id: 'privacy', label: 'Privacy & Security', icon: <Shield className="w-5 h-5" />, component: PrivacySecuritySettings },
   { id: 'preferences', label: 'App Preferences', icon: <LayoutDashboard className="w-5 h-5" />, component: AppPreferencesSettings },
-  { id: 'help', label: 'Help & Support', icon: <HelpCircle className="w-5 h-5" />, component: (props) => <HelpSupportSettings {...props} setIsReportIssueDialogOpen={setIsReportIssueDialogOpen} /> },
+  { id: 'help', label: 'Help & Support', icon: <HelpCircle className="w-5 h-5" />, component: (props) => <HelpSupportSettings {...props} /> },
 ];
 
 const SettingsPage = () => {
@@ -429,7 +429,7 @@ const SettingsPage = () => {
 
           {/* Mobile View: Category Content */}
           <div className={cn("md:hidden", showMobileCategoryContent ? "block" : "hidden")}>
-            {ActiveComponent && <ActiveComponent onBack={handleBackToCategories} />}
+            {ActiveComponent && <ActiveComponent onBack={handleBackToCategories} setIsReportIssueDialogOpen={setIsReportIssueDialogOpen} />}
           </div>
 
           {/* Desktop View: Two-column layout */}
@@ -456,7 +456,7 @@ const SettingsPage = () => {
 
             {/* Content area */}
             <div className="flex-1">
-              {ActiveComponent && <ActiveComponent />}
+              {ActiveComponent && <ActiveComponent setIsReportIssueDialogOpen={setIsReportIssueDialogOpen} />}
             </div>
           </div>
         </motion.div>
