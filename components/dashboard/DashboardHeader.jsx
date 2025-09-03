@@ -96,6 +96,5 @@ const DashboardHeader = ({ title, showSidebarTrigger = false }) => {
     </motion.header>
   );
 };
-};
 
 export default DashboardHeader;
