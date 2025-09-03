@@ -170,9 +170,6 @@ const StudentDashboard = () => {
           </Card>
         </motion.div>
       </motion.div>
-      </main>
-
-        </motion.div>
 
         {/* Analytics Link */}
         <motion.div
