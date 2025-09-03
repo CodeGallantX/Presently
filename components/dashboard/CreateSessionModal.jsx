@@ -55,7 +55,7 @@ const CreateSessionModal = ({ isOpen, onClose, onCreateSession }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] p-6">
+      <DialogContent className="w-full sm:max-w-[425px] p-6">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">Create New Session</DialogTitle>
           <DialogDescription>
