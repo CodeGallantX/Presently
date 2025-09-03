@@ -8,21 +8,23 @@ import ClassRepDashboard from '@/components/dashboard/ClassRepDashboard';
 
 const DashboardPage = () => {
   const router = useRouter();
-  const { isAuthenticated, userRole } = useAppStore();
+  const { isAuthenticated, userRole, isHydrated } = useAppStore();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/auth/signin');
-      return;
+    if (isHydrated) { // Only run checks after hydration
+      if (!isAuthenticated) {
+        router.push('/auth/signin');
+        return;
+      }
+      
+      if (!userRole) {
+        router.push('/onboarding');
+        return;
+      }
     }
-    
-    if (!userRole) {
-      router.push('/onboarding');
-      return;
-    }
-  }, [isAuthenticated, userRole, router]);
+  }, [isAuthenticated, userRole, router, isHydrated]);
 
-  if (!isAuthenticated || !userRole) {
+  if (!isHydrated || !isAuthenticated || !userRole) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
