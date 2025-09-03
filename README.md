@@ -5,12 +5,33 @@ Presently is a modern, web-based attendance management system designed for educa
 ## Features
 
 *   **Role-based access control:** Separate dashboards for students, lecturers, and class representatives.
+*   **Enhanced Onboarding Process:** A guided setup for new users, including role-specific profile details, permission requests (location, notifications), and dark mode preference.
 *   **QR code attendance:** Students can easily mark their attendance by scanning a QR code.
 *   **Real-time attendance tracking:** Lecturers can monitor attendance in real-time.
+*   **Student Attendance Analytics:** Comprehensive dashboards for students to view overall attendance, per-course breakdown, and historical trends.
 *   **Session management:** Lecturers can create, manage, and view attendance sessions.
 *   **Notifications:** In-app notifications for important events.
 *   **PWA support:** The application is a Progressive Web App and can be installed on mobile devices.
 *   **Dark mode:** A sleek dark mode for a better user experience.
+
+## Enhanced Onboarding Process
+
+The onboarding experience has been significantly improved to guide new users through a personalized setup.
+
+### Key Steps:
+
+1.  **Choose Your Role:** Users select their primary role (Student, Lecturer, or Class Representative).
+2.  **Account Setup:**
+    *   **Profile Details:** Users provide basic profile information (name, email, password).
+    *   **Role-Specific Information:**
+        *   **Students:** Input matriculation number, department, level, and upload a digital signature.
+        *   **Lecturers:** Provide staff ID, department, and list courses taught.
+        *   **Class Representatives:** Link to assigned courses and lecturers.
+    *   **Google Login Option:** A convenient option to sign in using a Google account.
+3.  **Permissions & Preferences:**
+    *   **Location Access:** Request permission for GPS-based attendance verification.
+    *   **Notifications:** Opt-in for in-app and push notifications for important updates.
+    *   **Dark Mode Preference:** Set the preferred theme, with dark mode as the default.
 
 ## Tech Stack
 
