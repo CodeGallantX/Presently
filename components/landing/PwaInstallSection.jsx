@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { FaAndroid, FaApple } from 'react-icons/fa';
-import { Share2, PlusCircle } from 'lucide-react'; // Keep these for iOS instructions
+import { Share2, PlusCircle, Smartphone } from "lucide-react"; // Keep these for iOS instructions
 import { cn } from '@/lib/utils';
 
 const PwaInstallSection = () => {
@@ -88,7 +88,7 @@ const PwaInstallSection = () => {
             <Card className="dashboard-card">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Android className="w-5 h-5" />
+                  <FaAndroid className="w-5 h-5" />
                   Install for Android
                 </CardTitle>
                 <CardDescription>Add Presently to your Android home screen for quick access.</CardDescription>
@@ -111,7 +111,7 @@ const PwaInstallSection = () => {
             <Card className="dashboard-card">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Apple className="w-5 h-5" />
+                  <FaApple className="w-5 h-5" />
                   Install for iOS
                 </CardTitle>
                 <CardDescription>Follow these steps to add Presently to your iPhone/iPad home screen.</CardDescription>
