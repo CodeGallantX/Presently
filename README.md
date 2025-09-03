@@ -11,6 +11,7 @@ Presently is a modern, web-based attendance management system designed for educa
 *   **Student Attendance Analytics:** Comprehensive dashboards for students to view overall attendance, per-course breakdown, and historical trends.
 *   **Session management:** Lecturers can create, manage, and view attendance sessions.
 *   **Notifications:** In-app notifications for important events.
+*   **Enhanced PWA Installation Experience:** Users can easily install the app on their Android devices with a dedicated button, while iOS users are guided through interactive instructions to add the app to their home screen.
 *   **PWA support:** The application is a Progressive Web App and can be installed on mobile devices.
 *   **Dark mode:** A sleek dark mode for a better user experience.
 

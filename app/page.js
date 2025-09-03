@@ -8,6 +8,7 @@ import ValueProposition from "@/components/landing/ValueProposition";
 import Testimonials from "@/components/landing/Testimonials";
 import Pricing from "@/components/landing/Pricing";
 import Faq from "@/components/landing/Faq";
+import PwaInstallSection from "@/components/landing/PwaInstallSection";
 import Footer from "@/components/landing/Footer";
 import Header from "@/components/landing/Header";
 
@@ -28,6 +29,7 @@ const App = () => {
       <Testimonials setActiveSection={setActiveSection} />
       <Pricing setActiveSection={setActiveSection} />
       <Faq setActiveSection={setActiveSection} />
+      <PwaInstallSection />
       <Footer />
     </motion.main>
   );
