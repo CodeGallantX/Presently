@@ -3,18 +3,42 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { QrCode, MapPin, Clock, TrendingUp, Calendar, Settings, User, Bell } from "lucide-react";
+import { QrCode, MapPin, Clock, TrendingUp, Calendar, Settings, User, Bell, BookOpen } from "lucide-react";
 import MobileNav from '@/components/dashboard/MobileNav';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import { cn } from '@/lib/utils';
+import { useAppStore } from '@/lib/store';
+import MarkAttendanceModal from '@/components/dashboard/MarkAttendanceModal';
 
 const StudentDashboard = () => {
-  const [attendanceHistory] = useState([
+  const { addAttendanceRecord } = useAppStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [attendanceHistory, setAttendanceHistory] = useState([
     { id: 1, course: 'Mathematics 101', date: '2025-01-15', status: 'present', time: '09:00 AM' },
     { id: 2, course: 'Physics 201', date: '2025-01-14', status: 'present', time: '11:00 AM' },
     { id: 3, course: 'Chemistry 101', date: '2025-01-13', status: 'late', time: '02:15 PM' },
     { id: 4, course: 'Biology 101', date: '2025-01-12', status: 'absent', time: '10:00 AM' },
   ]);
+
+  const handleMarkAttendance = (sessionCode) => {
+    console.log("Mark Attendance button clicked!");
+    const newRecord = {
+      id: attendanceHistory.length + 1,
+      course: `Course ${sessionCode}`,
+      date: new Date().toISOString().slice(0, 10),
+      status: 'present',
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+    addAttendanceRecord(newRecord);
+    setAttendanceHistory((prev) => {
+      const updatedHistory = [newRecord, ...prev];
+      console.log("Updated attendance history:", updatedHistory);
+      return updatedHistory;
+    });
+  };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const attendanceRate = 85;
   const totalClasses = 24;
@@ -54,7 +78,7 @@ const StudentDashboard = () => {
               <p className="text-muted-foreground mb-6">
                 Scan the QR code or use your location to check in to class
               </p>
-              <Button className="cta-button group">
+              <Button className="cta-button group" onClick={openModal}>
                 <QrCode className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
                 Mark Attendance
               </Button>
@@ -148,6 +172,12 @@ const StudentDashboard = () => {
       </main>
 
       <MobileNav activeTab="dashboard" />
+
+      <MarkAttendanceModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onMarkAttendance={handleMarkAttendance}
+      />
     </div>
   );
 };

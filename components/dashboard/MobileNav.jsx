@@ -1,5 +1,6 @@
 'use client';
 import { Home, Calendar, Users, BarChart3, Settings } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
@@ -12,6 +13,13 @@ const navItems = [
 ];
 
 const MobileNav = ({ activeTab = 'dashboard' }) => {
+  const router = useRouter();
+
+  const handleNavigation = (id) => {
+    // For now, all mobile nav items navigate to the main dashboard
+    // In a real app, these would navigate to specific sub-routes like /dashboard/attendance
+    router.push('/dashboard');
+  };
   return (
     <motion.nav
       className="mobile-nav md:hidden"
@@ -31,6 +39,7 @@ const MobileNav = ({ activeTab = 'dashboard' }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
+            onClick={() => handleNavigation(item.id)}
           >
             <div className="relative">
               {item.icon}

@@ -61,6 +61,10 @@ const LecturerDashboard = () => {
     });
   };
 
+  const endSession = () => {
+    setActiveSession(null);
+  };
+
   return (
     <SidebarProvider defaultOpen={true}>
       <div className="flex min-h-screen bg-background">
@@ -122,7 +126,7 @@ const LecturerDashboard = () => {
                         <span className="text-green-400">{activeSession.present} Present</span>
                         <span className="text-muted-foreground">of {activeSession.total}</span>
                       </div>
-                      <Button variant="outline" className="mt-4 w-full">
+                      <Button variant="outline" className="mt-4 w-full" onClick={endSession}>
                         End Session
                       </Button>
                     </div>

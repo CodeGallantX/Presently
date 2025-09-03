@@ -9,11 +9,13 @@ import { Eye, EyeOff, ArrowLeft, Mail, Lock, User, Chrome } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useAppStore } from "@/lib/store";
 
 const AuthLayout = ({ page }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { setUser, setUserRole } = useAppStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +23,10 @@ const AuthLayout = ({ page }) => {
     // Simulate API call
     setTimeout(() => {
       setIsLoading(false);
-      router.push('/onboarding');
+      // Simulate successful login
+      setUser({ name: 'Test User', email: 'test@example.com' }); // Set a dummy user
+      setUserRole('student'); // Set a default role
+      router.push('/dashboard'); // Redirect to dashboard after login
     }, 1500);
   };
 

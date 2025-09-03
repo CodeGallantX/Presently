@@ -21,6 +21,24 @@ const ClassRepDashboard = () => {
     { id: 3, date: '2025-01-13', present: 38, total: 45, lecturer: 'Dr. Johnson' },
   ]);
 
+  const handleExportReport = (type) => {
+    console.log(`Exporting ${type} report...`);
+    // In a real app, this would trigger a file download
+    alert(`Simulating export of ${type} report.`);
+  };
+
+  const handleSendMessage = () => {
+    console.log('Sending announcement...');
+    // In a real app, this would open a modal or navigate to a messaging interface
+    alert('Simulating sending an announcement.');
+  };
+
+  const handleViewClassList = () => {
+    console.log('Viewing class list...');
+    // In a real app, this would navigate to a class list page
+    alert('Simulating viewing class list.');
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader title="Class Representative Dashboard" />
@@ -114,15 +132,15 @@ const ClassRepDashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <Button variant="outline" className="w-full justify-start">
+                <Button variant="outline" className="w-full justify-start" onClick={() => handleExportReport('weekly PDF')}>
                   <FileDown className="w-4 h-4 mr-2" />
                   Weekly Report (PDF)
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
+                <Button variant="outline" className="w-full justify-start" onClick={() => handleExportReport('monthly Excel')}>
                   <FileDown className="w-4 h-4 mr-2" />
                   Monthly Summary (Excel)
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
+                <Button variant="outline" className="w-full justify-start" onClick={() => handleExportReport('student list CSV')}>
                   <FileDown className="w-4 h-4 mr-2" />
                   Student List (CSV)
                 </Button>
@@ -140,11 +158,11 @@ const ClassRepDashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <Button className="w-full justify-start cta-button">
+                <Button className="w-full justify-start cta-button" onClick={handleSendMessage}>
                   <MessageSquare className="w-4 h-4 mr-2" />
                   Send Announcement
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
+                <Button variant="outline" className="w-full justify-start" onClick={handleViewClassList}>
                   <Users className="w-4 h-4 mr-2" />
                   View Class List
                 </Button>
