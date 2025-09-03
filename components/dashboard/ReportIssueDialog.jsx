@@ -31,7 +31,7 @@ const ReportIssueDialog = ({ isOpen, onClose }) => {
         description,
         contactEmail,
       });
-      toast.success('Thank you! Your report has been sent. We'll look into it shortly.');
+      toast.success("Thank you! Your report has been sent. We'll look into it shortly.");
       setIsSubmitting(false);
       onClose();
       setSubject('');
