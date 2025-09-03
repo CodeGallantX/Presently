@@ -1,5 +1,5 @@
 'use client';
-import { Search, User, Settings, LogOut } from 'lucide-react';
+import { Search, User, Settings, LogOut, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SidebarTrigger } from '@/components/ui/sidebar';
@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 
 import NotificationDropdown from './NotificationDropdown';
 
-const DashboardHeader = ({ title, showSidebarTrigger = false }) => {
+const DashboardHeader = ({ title, showSidebarTrigger = false, showBackButton = false, onBackClick }) => {
   const { logout } = useAppStore();
   const router = useRouter();
 
@@ -41,6 +41,11 @@ const DashboardHeader = ({ title, showSidebarTrigger = false }) => {
     >
       <div className="flex items-center justify-between h-16 px-6">
         <div className="flex items-center gap-4">
+          {showBackButton && (
+            <Button variant="ghost" size="icon" onClick={onBackClick} className="md:hidden">
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+          )}
           {showSidebarTrigger && <SidebarTrigger />}
           <div>
             <h1 className="font-bold text-lg">{title}</h1>

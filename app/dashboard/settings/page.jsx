@@ -17,11 +17,6 @@ import { cn } from '@/lib/utils';
 const AccountSettings = ({ onBack }) => (
   <Card className="w-full">
     <CardHeader className="relative">
-      <div className="md:hidden absolute left-2 top-2">
-        <Button variant="ghost" size="icon" onClick={onBack}>
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-      </div>
       <CardTitle className="flex items-center gap-2"><User className="w-5 h-5" /> Account Settings</CardTitle>
     </CardHeader>
     <CardContent className="space-y-4">
@@ -91,11 +86,6 @@ const AccountSettings = ({ onBack }) => (
 const NotificationSettings = ({ onBack }) => (
   <Card className="w-full">
     <CardHeader className="relative">
-      <div className="md:hidden absolute left-2 top-2">
-        <Button variant="ghost" size="icon" onClick={onBack}>
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-      </div>
       <CardTitle className="flex items-center gap-2"><Bell className="w-5 h-5" /> Notification Settings</CardTitle>
     </CardHeader>
     <CardContent className="space-y-4">
@@ -153,11 +143,6 @@ const NotificationSettings = ({ onBack }) => (
 const AppearanceAccessibilitySettings = ({ onBack }) => (
   <Card className="w-full">
     <CardHeader className="relative">
-      <div className="md:hidden absolute left-2 top-2">
-        <Button variant="ghost" size="icon" onClick={onBack}>
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-      </div>
       <CardTitle className="flex items-center gap-2"><Palette className="w-5 h-5" /> Appearance & Accessibility</CardTitle>
     </CardHeader>
     <CardContent className="space-y-4">
@@ -209,11 +194,6 @@ const AppearanceAccessibilitySettings = ({ onBack }) => (
 const PrivacySecuritySettings = ({ onBack }) => (
   <Card className="w-full">
     <CardHeader className="relative">
-      <div className="md:hidden absolute left-2 top-2">
-        <Button variant="ghost" size="icon" onClick={onBack}>
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-      </div>
       <CardTitle className="flex items-center gap-2"><Shield className="w-5 h-5" /> Privacy & Security</CardTitle>
     </CardHeader>
     <CardContent className="space-y-4">
@@ -251,11 +231,6 @@ const PrivacySecuritySettings = ({ onBack }) => (
 const AppPreferencesSettings = ({ onBack }) => (
   <Card className="w-full">
     <CardHeader className="relative">
-      <div className="md:hidden absolute left-2 top-2">
-        <Button variant="ghost" size="icon" onClick={onBack}>
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-      </div>
       <CardTitle className="flex items-center gap-2"><LayoutDashboard className="w-5 h-5" /> App Preferences</CardTitle>
     </CardHeader>
     <CardContent className="space-y-4">
@@ -311,11 +286,6 @@ const AppPreferencesSettings = ({ onBack }) => (
 const HelpSupportSettings = ({ onBack }) => (
   <Card className="w-full">
     <CardHeader className="relative">
-      <div className="md:hidden absolute left-2 top-2">
-        <Button variant="ghost" size="icon" onClick={onBack}>
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-      </div>
       <CardTitle className="flex items-center gap-2"><HelpCircle className="w-5 h-5" /> Help & Support</CardTitle>
     </CardHeader>
     <CardContent className="space-y-4">
@@ -367,7 +337,7 @@ const SettingsPage = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <DashboardHeader title="Settings" />
+      <DashboardHeader title="Settings" showBackButton={showMobileCategoryContent} onBackClick={handleBackToCategories} />
 
       <main className="flex-1 container mx-auto px-4 py-8 pt-24 pb-24 md:pb-8">
         <motion.div
