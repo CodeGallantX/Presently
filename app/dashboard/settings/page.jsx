@@ -55,35 +55,87 @@ import ReportIssueDialog from '@/components/dashboard/ReportIssueDialog';
 import AppsAndIntegrations from '@/components/dashboard/AppsAndIntegrations';
 
 // Sub-components for settings sections
-const AccountSettings = ({ onBack }) => (
+const AccountSettings = ({ onBack }) => {
+  const [profilePicture, setProfilePicture] = useState("/user-placeholder.png"); // Placeholder image
+  const [profileData, setProfileData] = useState({
+    name: "John Doe",
+    department: "Computer Science",
+    level: "400",
+    institution: "University of XYZ",
+    country: "Nigeria",
+  });
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setProfileData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
+
+  const handlePictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePicture(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  return (
   <Card className="w-full">
     <CardHeader className="relative">
       <CardTitle className="flex items-center gap-2"><User className="w-5 h-5" /> Account Settings</CardTitle>
     </CardHeader>
     <CardContent className="space-y-4">
       <p className="text-muted-foreground">Edit your profile information.</p>
+      {/* Profile Picture Upload */}
+      <div className="flex flex-col items-center gap-4 mb-6">
+        <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-primary">
+          <img
+            src={profilePicture}
+            alt="Profile"
+            className="w-full h-full object-cover"
+          />
+          <label
+            htmlFor="profile-picture-upload"
+            className="absolute inset-0 flex items-center justify-center bg-black/50 text-white cursor-pointer opacity-0 hover:opacity-100 transition-opacity"
+          >
+            <User className="w-6 h-6" />
+          </label>
+        </div>
+        <Input
+          id="profile-picture-upload"
+          type="file"
+          accept="image/*"
+          onChange={handlePictureChange}
+          className="hidden"
+        />
+      </div>
       {/* Profile Edit Form */}
       <div className="space-y-2">
         <Label htmlFor="name">Name</Label>
-        <Input id="name" defaultValue="John Doe" />
+        <Input id="name" value={profileData.name} onChange={handleInputChange} />
       </div>
       <div className="space-y-2">
         <Label htmlFor="department">Department</Label>
-        <Input id="department" defaultValue="Computer Science" />
+        <Input id="department" value={profileData.department} onChange={handleInputChange} />
       </div>
       <div className="space-y-2">
         <Label htmlFor="level">Level</Label>
-        <Input id="level" defaultValue="400" />
+        <Input id="level" value={profileData.level} onChange={handleInputChange} />
       </div>
       <div className="space-y-2">
         <Label htmlFor="institution">Institution</Label>
-        <Input id="institution" defaultValue="University of XYZ" />
+        <Input id="institution" value={profileData.institution} onChange={handleInputChange} />
       </div>
       <div className="space-y-2">
         <Label htmlFor="country">Country</Label>
-        <Input id="country" defaultValue="Nigeria" />
+        <Input id="country" value={profileData.country} onChange={handleInputChange} />
       </div>
-      <Button>Save Profile</Button>
+      <Button onClick={() => console.log("Profile saved:", { ...profileData, profilePicture })}>Save Profile</Button>
       
       <Separator className="my-4" />
 
