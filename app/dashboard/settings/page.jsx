@@ -8,15 +8,20 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Settings as SettingsIcon, User, Bell, Accessibility, Lock, Mail, Clock, ChevronRight } from 'lucide-react';
+import { Settings as SettingsIcon, User, Bell, Accessibility, Lock, Mail, Clock, ChevronRight, Globe, Building, GraduationCap, Link, KeyRound, Signature, ArrowLeft } from 'lucide-react';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import MobileNav from '@/components/dashboard/MobileNav';
 import { cn } from '@/lib/utils';
 
 // Sub-components for settings sections
-const AccountSettings = () => (
+const AccountSettings = ({ onBack }) => (
   <Card className="w-full">
-    <CardHeader>
+    <CardHeader className="relative">
+      <div className="md:hidden absolute left-2 top-2">
+        <Button variant="ghost" size="icon" onClick={onBack}>
+          <ArrowLeft className="w-5 h-5" />
+        </Button>
+      </div>
       <CardTitle className="flex items-center gap-2"><User className="w-5 h-5" /> Account Settings</CardTitle>
     </CardHeader>
     <CardContent className="space-y-4">
@@ -27,8 +32,20 @@ const AccountSettings = () => (
         <Input id="name" defaultValue="John Doe" />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input id="email" type="email" defaultValue="john.doe@example.com" />
+        <Label htmlFor="department">Department</Label>
+        <Input id="department" defaultValue="Computer Science" />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="level">Level</Label>
+        <Input id="level" defaultValue="400" />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="institution">Institution</Label>
+        <Input id="institution" defaultValue="University of XYZ" />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="country">Country</Label>
+        <Input id="country" defaultValue="Nigeria" />
       </div>
       <Button>Save Profile</Button>
       
@@ -50,13 +67,35 @@ const AccountSettings = () => (
         <Input id="confirm-password" type="password" />
       </div>
       <Button>Change Password</Button>
+
+      <Separator className="my-4" />
+
+      <h3 className="text-lg font-semibold flex items-center gap-2"><Link className="w-4 h-4" /> Integrations</h3>
+      <p className="text-muted-foreground">Connect your accounts for seamless experience.</p>
+      <Button variant="outline" className="w-full justify-start">
+        <img src="/google-icon.svg" alt="Google" className="w-5 h-5 mr-2" />
+        Connect Google Account
+      </Button>
+
+      <Separator className="my-4" />
+
+      <h3 className="text-lg font-semibold flex items-center gap-2"><Signature className="w-4 h-4" /> Digital Signature</h3>
+      <p className="text-muted-foreground">Manage your digital signature for official documents.</p>
+      <Button variant="outline" className="w-full justify-start">
+        Manage Digital Signature
+      </Button>
     </CardContent>
   </Card>
 );
 
-const NotificationSettings = () => (
+const NotificationSettings = ({ onBack }) => (
   <Card className="w-full">
-    <CardHeader>
+    <CardHeader className="relative">
+      <div className="md:hidden absolute left-2 top-2">
+        <Button variant="ghost" size="icon" onClick={onBack}>
+          <ArrowLeft className="w-5 h-5" />
+        </Button>
+      </div>
       <CardTitle className="flex items-center gap-2"><Bell className="w-5 h-5" /> Notification Settings</CardTitle>
     </CardHeader>
     <CardContent className="space-y-4">
@@ -89,9 +128,14 @@ const NotificationSettings = () => (
   </Card>
 );
 
-const AccessibilitySettings = () => (
+const AccessibilitySettings = ({ onBack }) => (
   <Card className="w-full">
-    <CardHeader>
+    <CardHeader className="relative">
+      <div className="md:hidden absolute left-2 top-2">
+        <Button variant="ghost" size="icon" onClick={onBack}>
+          <ArrowLeft className="w-5 h-5" />
+        </Button>
+      </div>
       <CardTitle className="flex items-center gap-2"><Accessibility className="w-5 h-5" /> Accessibility</CardTitle>
     </CardHeader>
     <CardContent>
@@ -109,6 +153,16 @@ const settingsCategories = [
 
 const SettingsPage = () => {
   const [activeCategory, setActiveCategory] = useState('account'); // Default active category
+  const [showMobileCategoryContent, setShowMobileCategoryContent] = useState(false);
+
+  const handleCategoryClick = (categoryId) => {
+    setActiveCategory(categoryId);
+    setShowMobileCategoryContent(true);
+  };
+
+  const handleBackToCategories = () => {
+    setShowMobileCategoryContent(false);
+  };
 
   const ActiveComponent = settingsCategories.find(cat => cat.id === activeCategory)?.component;
 
@@ -124,18 +178,23 @@ const SettingsPage = () => {
           className="max-w-4xl mx-auto"
         >
           {/* Mobile View: List of buttons */}
-          <div className="md:hidden space-y-4">
+          <div className={cn("md:hidden space-y-4", showMobileCategoryContent ? "hidden" : "block")}>
             {settingsCategories.map((category) => (
               <Button
                 key={category.id}
                 variant="outline"
                 className="w-full justify-start py-6 text-lg"
-                onClick={() => setActiveCategory(category.id)}
+                onClick={() => handleCategoryClick(category.id)}
               >
                 {category.icon} <span className="ml-3">{category.label}</span>
                 <ChevronRight className="w-5 h-5 ml-auto" />
               </Button>
             ))}
+          </div>
+
+          {/* Mobile View: Category Content */}
+          <div className={cn("md:hidden", showMobileCategoryContent ? "block" : "hidden")}>
+            {ActiveComponent && <ActiveComponent onBack={handleBackToCategories} />}
           </div>
 
           {/* Desktop View: Two-column layout */}
