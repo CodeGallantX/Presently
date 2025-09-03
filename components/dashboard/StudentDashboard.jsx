@@ -171,6 +171,8 @@ const StudentDashboard = () => {
         </motion.div>
       </motion.div>
 
+        </motion.div>
+
         {/* Analytics Link */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -192,6 +194,7 @@ const StudentDashboard = () => {
             </CardContent>
           </Card>
         </motion.div>
+      </main>
       </main>
 
       <MobileNav activeTab="dashboard" />
