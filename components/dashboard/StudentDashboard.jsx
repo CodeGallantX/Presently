@@ -79,7 +79,6 @@ const StudentDashboard = () => {
                 Scan the QR code or use your location to check in to class
               </p>
               <Button className="cta-button group" onClick={openModal}>
-                <QrCode className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
                 Mark Attendance
               </Button>
             </CardContent>
