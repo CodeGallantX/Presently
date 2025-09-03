@@ -138,7 +138,7 @@ const PwaInstallSection = () => {
       <Dialog open={isInstallDialogOpen} onOpenChange={setIsInstallDialogOpen}>
         <DialogContent className="sm:max-w-[425px] text-center">
           <DialogHeader>
-            <DialogTitle>Install Presently</DialogAppTitle>
+            <DialogTitle>Install Presently</DialogTitle>
             <DialogDescription>Add Presently to your home screen for a faster experience.</DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-center space-y-4">
