@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Presently: Smart Attendance Management
+
+Presently is a modern, web-based attendance management system designed for educational institutions. It provides a seamless experience for lecturers to create and manage attendance sessions, and for students to mark their attendance using QR codes.
+
+## Features
+
+*   **Role-based access control:** Separate dashboards for students, lecturers, and class representatives.
+*   **QR code attendance:** Students can easily mark their attendance by scanning a QR code.
+*   **Real-time attendance tracking:** Lecturers can monitor attendance in real-time.
+*   **Session management:** Lecturers can create, manage, and view attendance sessions.
+*   **Notifications:** In-app notifications for important events.
+*   **PWA support:** The application is a Progressive Web App and can be installed on mobile devices.
+*   **Dark mode:** A sleek dark mode for a better user experience.
+
+## Tech Stack
+
+*   **Framework:** [Next.js](https://nextjs.org/)
+*   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+*   **UI Components:** [shadcn/ui](https://ui.shadcn.com/)
+*   **State Management:** [Zustand](https://github.com/pmndrs/zustand)
+*   **Animations:** [Framer Motion](https://www.framer.com/motion/)
+*   **PWA:** [next-pwa](https://www.npmjs.com/package/next-pwa)
 
 ## Getting Started
 
-First, run the development server:
+To get a local copy up and running, follow these simple steps.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
+
+*   Node.js (v18.x or later)
+*   npm or yarn
+
+### Installation
+
+1.  Clone the repo
+    ```sh
+    git clone https://github.com/CodeGallantX/Presently.git
+    ```
+2.  Install NPM packages
+    ```sh
+    npm install
+    ```
+3.  Run the development server
+    ```sh
+    npm run dev
+    ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+/app
+├── (auth) # Authentication routes (signin, signup, etc.)
+├── (dashboard) # Main dashboard routes
+├── (landing) # Landing page
+/components
+├── auth # Authentication related components
+├── dashboard # Dashboard specific components
+├── landing # Landing page sections
+├── ui # Reusable UI components from shadcn/ui
+/hooks # Custom React hooks
+/lib # Utility functions and state management
+/public # Static assets (images, icons, etc.)
+```
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+The easiest way to deploy this Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1.  Fork the Project
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.

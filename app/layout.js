@@ -17,19 +17,22 @@ export const metadata = {
   title: "Presently",
   description: "Smart attendance management for students and lecturers",
   manifest: "/manifest.json",
-  themeColor: "#09090b",
   appleWebAppCapable: "yes",
   appleWebAppStatusBarStyle: "default",
   appleWebAppTitle: "Presently",
-  formatDetection: "telephone=no",
+  formatDetection: { telephone: false },
   mobileWebAppCapable: "yes",
-  msapplicationTileColor: "#09090b",
   msapplicationTapHighlight: "no",
   keywords: ["attendance", "management", "student", "lecturer", "presently"],
   authors: [{ name: "CodeGallantX", url: "https://codegallantx.dev" }],
   creator: "CodeGallantX",
   publisher: "CodeGallantX",
 };
+
+export const viewport = {
+  themeColor: "#09090b",
+  msapplicationTileColor: "#09090b",
+}
 
 export default function RootLayout({ children }) {
   return (
