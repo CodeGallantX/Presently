@@ -188,6 +188,27 @@ export default function SessionsPage() {
     <>
       <DashboardHeader title="My Sessions" />
       <div className="pt-16 pb-16 px-4 md:px-8 lg:px-12 space-y-6 min-h-[calc(100vh-64px)]"> {/* Adjusted horizontal padding and added min-height */}
+        {/* Timetable Management Buttons */}
+        <div className="flex flex-col md:flex-row gap-4 mb-6">
+          {isCourseRep && (
+            <Link href="/dashboard/timetable-management" passHref>
+              <Button variant="outline" className="w-full md:w-auto">
+                <CalendarPlus className="w-4 h-4 mr-2" />
+                Manage Timetable
+              </Button>
+            </Link>
+          )}
+
+          {isStudent && (
+            <Link href="/dashboard/view-timetable" passHref>
+              <Button variant="outline" className="w-full md:w-auto">
+                <CalendarDays className="w-4 h-4 mr-2" />
+                View Timetable
+              </Button>
+            </Link>
+          )}
+        </div>
+
         {/* Course Selector */}
         <Card className="dashboard-card">
           <CardHeader className="pb-3">
@@ -287,23 +308,7 @@ export default function SessionsPage() {
               Export CSV
             </Button>
 
-            {isCourseRep && (
-              <Link href="/dashboard/timetable-management" passHref>
-                <Button variant="outline" className="w-full md:w-auto">
-                  <CalendarPlus className="w-4 h-4 mr-2" />
-                  Manage Timetable
-                </Button>
-              </Link>
-            )}
-
-            {isStudent && (
-              <Link href="/dashboard/view-timetable" passHref>
-                <Button variant="outline" className="w-full md:w-auto">
-                  <CalendarDays className="w-4 h-4 mr-2" />
-                  View Timetable
-                </Button>
-              </Link>
-            )}
+            
           </div>
         )}
 
@@ -327,7 +332,7 @@ export default function SessionsPage() {
           </>
         )}
       </div>
-      <MobileNav activeTab="sessions" />
+      <MobileNav activeTab="attendance" />
     </>
   );
 }
