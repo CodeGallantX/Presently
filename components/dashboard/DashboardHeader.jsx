@@ -18,13 +18,11 @@ const DashboardHeader = ({ title, showSidebarTrigger = false, showBackButton = f
   const router = useRouter();
 
   const handleProfileClick = () => {
-    alert("Navigating to Profile (simulated)");
-    console.log("Profile clicked");
+    router.push('/dashboard/profile'); // Navigate to profile page
   };
 
   const handleSettingsClick = () => {
-    alert("Navigating to Settings (simulated)");
-    console.log("Settings clicked");
+    router.push('/dashboard/settings'); // Navigate to settings page
   };
 
   const handleLogout = () => {
