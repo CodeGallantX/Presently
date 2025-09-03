@@ -81,7 +81,7 @@ const DashboardHeader = ({ title, showSidebarTrigger = false, showBackButton = f
                 <User className="w-5 h-5" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
+            <DropdownMenuContent className="w-56 z-50" align="end" forceMount>
               <DropdownMenuItem onClick={handleProfileClick}>
                 <User className="w-4 h-4 mr-2" />
                 Profile

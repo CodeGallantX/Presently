@@ -63,7 +63,7 @@ const StudentDashboard = () => {
     <div className="min-h-screen bg-background">
       <DashboardHeader title="Student Dashboard" />
       
-      <main className="container mx-auto px-6 pt-24 pb-24 md:pb-6">
+      <main className="container mx-auto px-6 pt-24 pb-32 md:pb-6">
         {/* Quick Action - Mark Attendance */}
         <motion.div
           className="mb-8"
