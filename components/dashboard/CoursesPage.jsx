@@ -17,17 +17,6 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button"; // Import Button
 import { useIsMobile } from "@/hooks/use-mobile"; // Import useIsMobile hook
-import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import MobileNav from "@/components/dashboard/MobileNav";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 const courses = [
   {
