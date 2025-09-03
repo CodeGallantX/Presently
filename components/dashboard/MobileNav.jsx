@@ -17,9 +17,24 @@ const MobileNav = ({ activeTab = 'dashboard' }) => {
   const router = useRouter();
 
   const handleNavigation = (id) => {
-    // For now, all mobile nav items navigate to the main dashboard
-    // In a real app, these would navigate to specific sub-routes like /dashboard/attendance
-    router.push('/dashboard');
+    let path = '/dashboard';
+    switch (id) {
+      case 'attendance':
+        path = '/dashboard/sessions';
+        break;
+      case 'courses':
+        path = '/dashboard/courses';
+        break;
+      case 'analytics':
+        path = '/dashboard/analytics';
+        break;
+      case 'settings':
+        path = '/dashboard/settings';
+        break;
+      default:
+        path = '/dashboard';
+    }
+    router.push(path);
   };
   return (
     <motion.nav
