@@ -12,6 +12,7 @@ import { useAppStore } from '@/lib/store';
 import MarkAttendanceModal from '@/components/dashboard/MarkAttendanceModal';
 
 const StudentDashboard = () => {
+  const router = useRouter();
   const { addAttendanceRecord } = useAppStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [attendanceHistory, setAttendanceHistory] = useState([
@@ -169,9 +170,6 @@ const StudentDashboard = () => {
             </CardContent>
           </Card>
         </motion.div>
-      </motion.div>
-
-        </motion.div>
 
         {/* Analytics Link */}
         <motion.div
@@ -194,7 +192,6 @@ const StudentDashboard = () => {
             </CardContent>
           </Card>
         </motion.div>
-      </main>
       </main>
 
       <MobileNav activeTab="dashboard" />
