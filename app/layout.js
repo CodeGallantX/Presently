@@ -31,7 +31,6 @@ export const metadata = {
 
 export const viewport = {
   themeColor: "#09090b",
-  msapplicationTileColor: "#09090b",
 }
 
 export default function RootLayout({ children }) {
