@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
-import dynamic from 'next/dynamic';
-const motion = dynamic(() => import('framer-motion').then(mod => mod.motion), { ssr: false });
+import { motion } from "framer-motion";
 import Hero from "@/components/landing/Hero";
 import KeyFeatures from "@/components/landing/KeyFeatures";
 import HowItWorks from "@/components/landing/HowItWorks";

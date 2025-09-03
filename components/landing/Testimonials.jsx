@@ -1,8 +1,6 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import dynamic from 'next/dynamic';
-const motion = dynamic(() => import('framer-motion').then(mod => mod.motion), { ssr: false });
-const useInView = dynamic(() => import('framer-motion').then(mod => mod.useInView), { ssr: false });
+import { motion, useInView } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, Quote } from "lucide-react";
 

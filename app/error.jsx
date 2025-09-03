@@ -1,11 +1,8 @@
-
 'use client'; // Error components must be Client Components
 
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Frown } from 'lucide-react';
-import dynamic from 'next/dynamic';
-const motion = dynamic(() => import('framer-motion').then(mod => mod.motion), { ssr: false });
 
 export default function Error({ error, reset }) {
   useEffect(() => {
@@ -15,12 +12,7 @@ export default function Error({ error, reset }) {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground p-6">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-center"
-      >
+      <div className="text-center">
         <Frown className="w-24 h-24 text-primary mx-auto mb-6" />
         <h2 className="text-4xl font-bold mb-4">Something went wrong!</h2>
         <p className="text-lg text-muted-foreground mb-8">
@@ -35,7 +27,7 @@ export default function Error({ error, reset }) {
         >
           Try again
         </Button>
-      </motion.div>
+      </div>
     </div>
   );
 }

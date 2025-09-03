@@ -1,6 +1,5 @@
 'use client';
-import dynamic from 'next/dynamic';
-const motion = dynamic(() => import('framer-motion').then(mod => mod.motion), { ssr: false });
+import { motion } from "framer-motion";
 import {
   Accordion,
   AccordionContent,
