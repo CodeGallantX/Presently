@@ -27,10 +27,18 @@ const Hero = ({ setActiveSection }) => {
     >
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
-      
-      {/* Floating elements */}
+
+      {/* Floating elements (Blobs) */}
       <div className="absolute top-20 left-10 w-20 h-20 bg-primary/10 rounded-full animate-float" />
       <div className="absolute bottom-20 right-10 w-32 h-32 bg-primary/5 rounded-full animate-float" style={{ animationDelay: '1s' }} />
+
+      {/* New Blobs */}
+      <div className="absolute top-1/4 left-1/4 w-16 h-16 bg-primary/15 rounded-full animate-float-x" style={{ animationDelay: '0.5s' }} />
+      <div className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-primary/10 rounded-full animate-scale-pulse" style={{ animationDelay: '1.5s' }} />
+      <div className="absolute top-10 right-1/3 w-28 h-28 bg-primary/5 rounded-full animate-rotate-slow" style={{ animationDelay: '2s' }} />
+      <div className="absolute bottom-5 left-1/2 w-40 h-40 bg-primary/10 rounded-full animate-float" style={{ animationDelay: '2.5s' }} />
+      <div className="absolute top-1/2 right-5 w-20 h-20 bg-primary/15 rounded-full animate-float-x" style={{ animationDelay: '3s' }} />
+      <div className="absolute bottom-10 left-5 w-24 h-24 bg-primary/5 rounded-full animate-scale-pulse" style={{ animationDelay: '3.5s' }} />
       
       <div className="relative z-10 text-center px-6 max-w-6xl mx-auto">
         <motion.div

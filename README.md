@@ -18,7 +18,7 @@ Presently is a modern, web-based attendance management system designed for educa
 *   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 *   **UI Components:** [shadcn/ui](https://ui.shadcn.com/)
 *   **State Management:** [Zustand](https://github.com/pmndrs/zustand)
-*   **Animations:** [Framer Motion](https://www.framer.com/motion/)
+*   **Animations:** [Framer Motion](https://www.framer.com/motion/) (used for smooth UI transitions and background effects)
 *   **PWA:** [next-pwa](https://www.npmjs.com/package/next-pwa)
 
 ## Getting Started
@@ -59,10 +59,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ├── dashboard # Dashboard specific components
 ├── landing # Landing page sections
 ├── ui # Reusable UI components from shadcn/ui
+├── not-found-component.jsx # Client component for 404 page
 /hooks # Custom React hooks
 /lib # Utility functions and state management
 /public # Static assets (images, icons, etc.)
 ```
+
+## Background Animations
+
+The application features subtle, animated background "blobs" to enhance the visual experience. These blobs vary in size, position, and animation type (e.g., floating, pulsing, rotating) and are strategically placed across the landing page (more prominent in the hero section, gradually decreasing towards the footer) and authentication pages.
 
 ## Deployment
 

@@ -67,7 +67,10 @@ const KeyFeatures = ({ setActiveSection }) => {
   }, [isInView, setActiveSection]);
 
   return (
-    <section ref={ref} id="features" className="py-24 px-6">
+    <section ref={ref} id="features" className="py-24 px-6 relative overflow-hidden">
+      {/* Blobs for KeyFeatures section */}
+      <div className="absolute top-10 right-10 w-20 h-20 bg-primary/5 rounded-full animate-float-x" style={{ animationDelay: '0.5s' }} />
+      <div className="absolute bottom-20 left-20 w-16 h-16 bg-primary/10 rounded-full animate-scale-pulse" style={{ animationDelay: '1.5s' }} />
       <div className="container mx-auto max-w-7xl">
         <motion.div
           className="text-center mb-16"
