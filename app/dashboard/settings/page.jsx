@@ -102,13 +102,15 @@ const AccessibilitySettings = () => (
 );
 
 const settingsCategories = [
-  { id: 'account', label: 'Account', icon: <User className="w-5 h-5" />, component: <AccountSettings /> },
-  { id: 'notifications', label: 'Notifications', icon: <Bell className="w-5 h-5" />, component: <NotificationSettings /> },
-  { id: 'accessibility', label: 'Accessibility', icon: <Accessibility className="w-5 h-5" />, component: <AccessibilitySettings /> },
+  { id: 'account', label: 'Account', icon: <User className="w-5 h-5" />, component: AccountSettings },
+  { id: 'notifications', label: 'Notifications', icon: <Bell className="w-5 h-5" />, component: NotificationSettings },
+  { id: 'accessibility', label: 'Accessibility', icon: <Accessibility className="w-5 h-5" />, component: AccessibilitySettings },
 ];
 
 const SettingsPage = () => {
   const [activeCategory, setActiveCategory] = useState('account'); // Default active category
+
+  const ActiveComponent = settingsCategories.find(cat => cat.id === activeCategory)?.component;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -160,7 +162,7 @@ const SettingsPage = () => {
 
             {/* Content area */}
             <div className="flex-1">
-              {settingsCategories.find(cat => cat.id === activeCategory)?.component}
+              {ActiveComponent && <ActiveComponent />}
             </div>
           </div>
         </motion.div>
