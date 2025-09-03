@@ -2,8 +2,8 @@
 import { Home, Calendar, Users, BarChart3, Settings } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import dynamic from 'next/dynamic';
-const motion = dynamic(() => import('framer-motion').then(mod => mod.motion), { ssr: false });
+
+import { motion } from "framer-motion";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const navItems = [

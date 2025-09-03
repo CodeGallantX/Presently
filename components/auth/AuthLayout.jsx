@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Eye, EyeOff, ArrowLeft, Mail, Lock, User, Chrome } from "lucide-react";
 import Link from "next/link";
-import dynamic from 'next/dynamic';
-const motion = dynamic(() => import('framer-motion').then(mod => mod.motion), { ssr: false });
+
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/lib/store";
 import { toast } from "sonner";

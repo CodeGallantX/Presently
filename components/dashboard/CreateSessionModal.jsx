@@ -1,8 +1,8 @@
 'use client';
 import { useState } from 'react';
-import dynamic from 'next/dynamic';
-const motion = dynamic(() => import('framer-motion').then(mod => mod.motion), { ssr: false });
-const AnimatePresence = dynamic(() => import('framer-motion').then(mod => mod.AnimatePresence), { ssr: false });
+
+import { motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
