@@ -3,7 +3,9 @@
     "short_name": "Presently",
     "description": "Smart attendance management for students and lecturers",
     "start_url": "/",
+    "scope": "/",
     "display": "standalone",
+    "orientation": "any",
     "background_color": "#09090b",
     "theme_color": "#09090b",
     "icons": [
