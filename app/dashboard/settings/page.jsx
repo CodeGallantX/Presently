@@ -9,6 +9,17 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import {
+  SidebarProvider,
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarInset,
+  SidebarTrigger
+} from "@/components/ui/sidebar";
 import { 
   Select, 
   SelectContent, 
@@ -436,13 +447,7 @@ const SettingsPage = () => {
   const [activeCategory, setActiveCategory] = useState('account'); // Default active category
   const [showMobileCategoryContent, setShowMobileCategoryContent] = useState(false);
   const [isReportIssueDialogOpen, setIsReportIssueDialogOpen] = useState(false);
-
-  const handleCategoryClick = (categoryId) => {
-    setActiveCategory(categoryId);
-    setShowMobileCategoryContent(true);
-  };
-
-  const { logout } = useAppStore();
+  const { logout, userRole } = useAppStore();
   const router = useRouter();
 
   const handleLogout = () => {
@@ -457,90 +462,151 @@ const SettingsPage = () => {
   const ActiveComponent = settingsCategories.find(cat => cat.id === activeCategory)?.component;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <DashboardHeader title="Settings" showBackButton={showMobileCategoryContent} onBackClick={handleBackToCategories} />
+    <>
+      {userRole === 'lecturer' ? (
+        <SidebarProvider defaultOpen={true}>
+          <div className="flex min-h-screen bg-background">
+            {/* Desktop Sidebar */}
+            <Sidebar className="hidden md:flex">
+              <SidebarHeader className="p-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                    <span className="text-primary-foreground font-bold">P</span>
+                  </div>
+                  <div>
+                    <div className="font-bold">Presently</div>
+                    <div className="text-xs text-muted-foreground">Lecturer Portal</div>
+                  </div>
+                </div>
+              </SidebarHeader>
+              <SidebarContent className="p-4">
+                <SidebarMenu className="space-y-2">
+                  {settingsCategories.map((category) => (
+                    <SidebarMenuItem key={category.id}>
+                      <SidebarMenuButton
+                        href={`/dashboard/settings?category=${category.id}`} // Link to category
+                        isActive={activeCategory === category.id}
+                        onClick={() => setActiveCategory(category.id)}
+                      >
+                        {category.icon}
+                        <span>{category.label}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                  <SidebarMenuItem>
+                    <SidebarMenuButton onClick={handleLogout}>
+                      <LogOut className="w-4 h-4" />
+                      <span>Log Out</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarContent>
+            </Sidebar>
 
-      <main className="flex-1 container mx-auto px-4 py-8 pt-24 pb-24 md:pb-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto"
-        >
-          {/* Mobile View: List of buttons */}
-          <div className={cn("md:hidden space-y-4", showMobileCategoryContent ? "hidden" : "block")}>
-            {settingsCategories.map((category) => (
-              <Button
-                key={category.id}
-                variant="outline"
-                className="w-full justify-start py-6 text-lg"
-                onClick={() => handleCategoryClick(category.id)}
-              >
-                {category.icon} <span className="ml-3">{category.label}</span>
-                <ChevronRight className="w-5 h-5 ml-auto" />
-              </Button>
-            ))}
+            <SidebarInset className="flex-1">
+              <DashboardHeader title="Settings" showSidebarTrigger={true} />
+
+              <main className="p-6 space-y-8">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="max-w-4xl mx-auto"
+                >
+                  {ActiveComponent && <ActiveComponent setIsReportIssueDialogOpen={setIsReportIssueDialogOpen} />}
+                </motion.div>
+              </main>
+            </SidebarInset>
           </div>
+        </SidebarProvider>
+      ) : (
+        // Existing layout for other roles
+        <div className="min-h-screen bg-background flex flex-col">
+          <DashboardHeader title="Settings" showBackButton={showMobileCategoryContent} onBackClick={handleBackToCategories} />
 
-          {/* Mobile View: Category Content */}
-          <div className={cn("md:hidden", showMobileCategoryContent ? "block" : "hidden")}>
-            {ActiveComponent && <ActiveComponent onBack={handleBackToCategories} setIsReportIssueDialogOpen={setIsReportIssueDialogOpen} />}
-          </div>
-
-          {/* Desktop View: Two-column layout */}
-          <div className="hidden md:flex gap-8">
-            {/* Sidebar for navigation */}
-            <Card className="w-64 flex-shrink-0">
-              <CardHeader>
-                <CardTitle className="text-xl">Categories</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
+          <main className="flex-1 container mx-auto px-4 py-8 pt-24 pb-24 md:pb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="max-w-4xl mx-auto"
+            >
+              {/* Mobile View: List of buttons */}
+              <div className={cn("md:hidden space-y-4", showMobileCategoryContent ? "hidden" : "block")}>
                 {settingsCategories.map((category) => (
                   <Button
                     key={category.id}
-                    variant={activeCategory === category.id ? "default" : "ghost"}
-                    className={cn("w-full justify-start", activeCategory === category.id && "cta-button")}
-                    onClick={() => setActiveCategory(category.id)}
+                    variant="outline"
+                    className="w-full justify-start py-6 text-lg"
+                    onClick={() => handleCategoryClick(category.id)}
                   >
-                    {category.icon} <span className="ml-2">{category.label}</span>
-                    <ChevronRight className="w-4 h-4 ml-auto" />
+                    {category.icon} <span className="ml-3">{category.label}</span>
+                    <ChevronRight className="w-5 h-5 ml-auto" />
                   </Button>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
 
-            {/* Content area */}
-            <div className="flex-1">
-              {ActiveComponent && <ActiveComponent setIsReportIssueDialogOpen={setIsReportIssueDialogOpen} />}
-            </div>
+              {/* Mobile View: Category Content */}
+              <div className={cn("md:hidden", showMobileCategoryContent ? "block" : "hidden")}>
+                {ActiveComponent && <ActiveComponent onBack={handleBackToCategories} setIsReportIssueDialogOpen={setIsReportIssueDialogOpen} />}
+              </div>
+
+              {/* Desktop View: Two-column layout */}
+              <div className="hidden md:flex gap-8">
+                {/* Sidebar for navigation */}
+                <Card className="w-64 flex-shrink-0">
+                  <CardHeader>
+                    <CardTitle className="text-xl">Categories</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    {settingsCategories.map((category) => (
+                      <Button
+                        key={category.id}
+                        variant={activeCategory === category.id ? "default" : "ghost"}
+                        className={cn("w-full justify-start", activeCategory === category.id && "cta-button")}
+                        onClick={() => setActiveCategory(category.id)}
+                      >
+                        {category.icon} <span className="ml-2">{category.label}</span>
+                        <ChevronRight className="w-4 h-4 ml-auto" />
+                      </Button>
+                    ))}
+                  </CardContent>
+                </Card>
+
+                {/* Content area */}
+                <div className="flex-1">
+                  {ActiveComponent && <ActiveComponent setIsReportIssueDialogOpen={setIsReportIssueDialogOpen} />}
+                </div>
+              </div>
+            </motion.div>
+          </main>
+
+          <div className="container mx-auto px-4 pb-24 md:pb-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              <Button
+                onClick={handleLogout}
+                className="w-full cta-button flex items-center justify-center gap-2"
+                variant="destructive"
+              >
+                <LogOut className="w-5 h-5" />
+                Log Out
+              </Button>
+            </motion.div>
           </div>
-        </motion.div>
-      </main>
 
-      <div className="container mx-auto px-4 pb-24 md:pb-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-        >
-          <Button
-            onClick={handleLogout}
-            className="w-full cta-button flex items-center justify-center gap-2"
-            variant="destructive"
-          >
-            <LogOut className="w-5 h-5" />
-            Log Out
-          </Button>
-        </motion.div>
-      </div>
+          <MobileNav activeTab="settings" />
 
-      <MobileNav activeTab="settings" />
-
-      <ReportIssueDialog
-        isOpen={isReportIssueDialogOpen}
-        onClose={() => setIsReportIssueDialogOpen(false)}
-      />
-    </div>
+          <ReportIssueDialog
+            isOpen={isReportIssueDialogOpen}
+            onClose={() => setIsReportIssueDialogOpen(false)}
+          />
+        </div>
+      )}
+    </>
   );
 };
 
