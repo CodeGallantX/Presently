@@ -33,7 +33,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import CreateSessionModal from '@/components/dashboard/CreateSessionModal';
 import QrCodeModal from '@/components/dashboard/QrCodeModal';
 
+import { useRouter } from 'next/navigation';
+
 const LecturerDashboard = () => {
+  const router = useRouter();
   const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] = useState(false);
   const [isQrCodeModalOpen, setIsQrCodeModalOpen] = useState(false);
   const [activeSession, setActiveSession] = useState(null);
@@ -50,12 +53,12 @@ const LecturerDashboard = () => {
   ]);
 
   const sidebarItems = [
-    { icon: <BarChart3 className="w-4 h-4" />, label: 'Dashboard', active: true },
-    { icon: <BookOpen className="w-4 h-4" />, label: 'Courses' },
-    { icon: <Calendar className="w-4 h-4" />, label: 'Sessions' },
-    { icon: <Users className="w-4 h-4" />, label: 'Students' },
-    { icon: <FileDown className="w-4 h-4" />, label: 'Reports' },
-    { icon: <Settings className="w-4 h-4" />, label: 'Settings' },
+    { icon: <BarChart3 className="w-4 h-4" />, label: 'Dashboard', href: '/dashboard', active: true },
+    { icon: <BookOpen className="w-4 h-4" />, label: 'Courses', href: '/dashboard/courses' },
+    { icon: <Calendar className="w-4 h-4" />, label: 'Sessions', href: '/dashboard/sessions' },
+    { icon: <Users className="w-4 h-4" />, label: 'Students', href: '/dashboard/students' },
+    { icon: <FileDown className="w-4 h-4" />, label: 'Reports', href: '/dashboard/reports' },
+    { icon: <Settings className="w-4 h-4" />, label: 'Settings', href: '/dashboard/settings' },
   ];
 
   const handleCreateSession = (newSession) => {
@@ -88,7 +91,7 @@ const LecturerDashboard = () => {
             <SidebarMenu className="space-y-2">
               {sidebarItems.map((item, index) => (
                 <SidebarMenuItem key={index}>
-                  <SidebarMenuButton isActive={item.active}>
+                  <SidebarMenuButton href={item.href} isActive={router.pathname === item.href}>
                     {item.icon}
                     <span>{item.label}</span>
                   </SidebarMenuButton>
