@@ -64,6 +64,7 @@ import { useAppStore } from '@/lib/store'; // Adjust the import path as needed
 import { cn } from '@/lib/utils';
 import ReportIssueDialog from '@/components/dashboard/ReportIssueDialog';
 import AppsAndIntegrations from '@/components/dashboard/AppsAndIntegrations';
+import { Label } from "@/components/ui/label";
 
 import { Label } from "@/components/ui/label";
 
