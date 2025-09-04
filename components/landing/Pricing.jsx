@@ -139,115 +139,7 @@ const Pricing = ({ setActiveSection }) => {
       style: 'currency',
       currency: currency === 'naira' ? 'NGN' : 'USD',
       minimumFractionDigits: 0,
-    }).format(price).replace('NGN', '₦').replace('USD', '
-
-                <CardContent className="flex-grow">
-                  {plan.note && (
-                    <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                      <div className="flex items-start gap-2">
-                        <AlertCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                        <p className="text-xs text-blue-400 leading-relaxed">{plan.note}</p>
-                      </div>
-                    </div>
-                  )}
-                  
-                  <ul className="space-y-3">
-                    {plan.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <div className="w-5 h-5 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <Check className="w-3 h-3" />
-                        </div>
-                        <span className="text-sm leading-relaxed">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-
-                <CardFooter className="pt-6">
-                  <Button 
-                    onClick={() => handleCtaClick(plan.cta, plan.title)}
-                    variant={plan.popular ? 'default' : 'outline'}
-                    disabled={plan.disabled}
-                    className={cn(
-                      "w-full py-6 font-semibold transition-all duration-200",
-                      plan.popular && "cta-button",
-                      plan.disabled && "opacity-50 cursor-not-allowed"
-                    )}
-                  >
-                    {plan.cta}
-                  </Button>
-                </CardFooter>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Billing Information */}
-        <motion.div
-          className="mt-16 text-center"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          <div className="glass-card p-8 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold mb-6">How Billing Works</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-              <div className="space-y-2">
-                <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mb-3">
-                  <Zap className="w-6 h-6 text-primary" />
-                </div>
-                <h4 className="font-semibold">1. Lecturer Signs Up</h4>
-                <p className="text-sm text-muted-foreground">
-                  Lecturers create accounts and set up their courses with annual billing.
-                </p>
-              </div>
-              <div className="space-y-2">
-                <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-3">
-                  <GraduationCap className="w-6 h-6 text-blue-400" />
-                </div>
-                <h4 className="font-semibold">2. Students Auto-Enrolled</h4>
-                <p className="text-sm text-muted-foreground">
-                  Students are automatically added when lecturers create courses. Student fees are collected separately.
-                </p>
-              </div>
-              <div className="space-y-2">
-                <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-3">
-                  <Building className="w-6 h-6 text-green-400" />
-                </div>
-                <h4 className="font-semibold">3. Scale to Department</h4>
-                <p className="text-sm text-muted-foreground">
-                  Departments can upgrade to cover all lecturers and students with centralized billing.
-                </p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Enterprise CTA */}
-        <motion.div
-          className="mt-16 text-center"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <div className="glass-card p-8 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold mb-4">Need something custom?</h3>
-            <p className="text-muted-foreground mb-6">
-              We work with large institutions to create tailored solutions that fit your specific needs.
-            </p>
-            <Button variant="outline" className="secondary-button">
-              Schedule a Call
-            </Button>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-export default Pricing;);
+    }).format(price).replace('NGN', '₦').replace('USD', '$');
   };
 
   const calculateSavedPercentage = (monthly, annually) => {
@@ -395,7 +287,7 @@ export default Pricing;);
                 </CardFooter>
               </Card>
             </motion.div>
-          ))}
+          )})}
         </div>
 
         {/* Billing Information */}
