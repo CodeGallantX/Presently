@@ -12,23 +12,21 @@ import { cn } from "@/lib/utils";
 const plans = [
   {
     title: "Lecturers",
-    subtitle: "For educators and instructors",
+    subtitle: "For individual educators who want reliable attendance management.",
     icon: <Zap className="w-6 h-6" />,
     price: {
-      naira: { monthly: 3000, annually: 30000 },
-      dollar: { monthly: 5, annually: 50 }
+      naira: { monthly: 7500, annually: 75000 },
+      dollar: { monthly: 10, annually: 100 }
     },
     priceDetails: { monthly: "/month", annually: "/year" },
-    trial: "Free trial available",
+    trial: "Start Free Trial",
     features: [
-      "Create & manage attendance sessions",
-      "Real-time attendance tracking",
-      "Export to PDF / Excel / CSV",
-      "Course management tools",
-      "Advanced analytics & insights",
-      "Student notifications (reminders & alerts)",
-      "Automations (auto-open/close sessions, reminders)",
-      "Attendance validation alerts"
+      "Unlimited courses & sessions",
+      "Real-time attendance (QR + GPS)",
+      "Instant exports (PDF / Excel / CSV)",
+      "Automated exam clearance lists",
+      "Attendance validation alerts",
+      "Student reminders & notifications"
     ],
     cta: "Start Free Trial",
     popular: true,
@@ -37,54 +35,30 @@ const plans = [
   },
   {
     title: "Students",
-    subtitle: "Compulsory, tied to a lecturer's course",
+    subtitle: "For students in courses where Presently is adopted.",
     icon: <GraduationCap className="w-6 h-6" />,
     price: {
-      naira: { monthly: 500, annually: 500 },
-      dollar: { monthly: 1, annually: 1 }
+      naira: { monthly: 1000, annually: 2000 },
+      dollar: { monthly: 2, annually: 4 }
     },
-    priceDetails: { monthly: "/year", annually: "/year" },
-    trial: "Auto-enrolled with lecturer",
+    priceDetails: { monthly: "/semester", annually: "/year" },
+    trial: "Auto-enrolled",
     features: [
-      "Mark attendance with QR/GPS",
-      "View attendance history",
-      "Real-time absence/presence notifications",
-      "Motivational feedback",
-      "Mobile-optimized interface"
+      "Fast attendance check-in (QR + GPS)",
+      "Attendance history & records",
+      "Exam clearance proof PDF",
+      "Real-time absence/presence alerts",
+      "Motivational feedback"
     ],
     cta: "Auto-enrolled",
     popular: false,
     color: "border-blue-500/20 bg-blue-500/5",
-    note: "Students cannot sign up alone — they join automatically once their lecturer/course is onboarded.",
+    note: "Students only join through their lecturer’s course — no standalone signups.",
     disabled: true
   },
   {
-    title: "Departments",
-    subtitle: "For faculties or departments covering all courses",
-    icon: <Building className="w-6 h-6" />,
-    price: {
-      naira: { monthly: 150000, annually: 1500000 },
-      dollar: { monthly: 200, annually: 2000 }
-    },
-    priceDetails: { monthly: "/month", annually: "/year" },
-    trial: "Free 1-Month Trial",
-    features: [
-      "All lecturers & students in department included",
-      "Centralized department dashboard",
-      "Bulk analytics (by course, by level)",
-      "Student compliance & exam clearance reports",
-      "Multi-lecturer coordination tools",
-      "Departmental admin accounts",
-      "Priority support"
-    ],
-    cta: "Start Free Trial",
-    popular: false,
-    color: "border-purple-500/20 bg-purple-500/5",
-    note: ""
-  },
-  {
-    title: "Institutions",
-    subtitle: "For tertiary institutions",
+    title: "Departments / Institutions",
+    subtitle: "For faculties or universities who want centralized control.",
     icon: <Users className="w-6 h-6" />,
     price: {
       naira: { monthly: "Custom", annually: "Custom" },
@@ -93,13 +67,13 @@ const plans = [
     priceDetails: { monthly: "", annually: "" },
     trial: "Custom demo & trial",
     features: [
-      "Institution-wide deployment (all departments included)",
-      "Cross-department & faculty analytics",
-      "Custom integrations (LMS, ERP, exam clearance) [coming soon]",
-      "White-label branding (school name, logo, domain)",
-      "Advanced reporting suite",
-      "API access for developers [coming soon]",
-      "Dedicated support & SLA"
+      "All lecturer + student features",
+      "Department-wide dashboard",
+      "Bulk analytics & reports",
+      "Compliance & clearance tools",
+      "White-label branding (logo, domain)",
+      "Dedicated support & training",
+      "Integrations (SIS, LMS, ERP) (coming soon)"
     ],
     cta: "Contact Sales",
     popular: false,

@@ -447,7 +447,7 @@ const SettingsPage = () => {
   const [activeCategory, setActiveCategory] = useState('account'); // Default active category
   const [showMobileCategoryContent, setShowMobileCategoryContent] = useState(false);
   const [isReportIssueDialogOpen, setIsReportIssueDialogOpen] = useState(false);
-  const { logout } = useAppStore();
+  const { logout, userRole } = useAppStore();
   const router = useRouter();
 
   const handleLogout = () => {
