@@ -517,7 +517,7 @@ const SettingsPage = () => {
         </motion.div>
       </main>
 
-      <div className="container mx-auto px-4 pb-8 md:pb-4">
+      <div className="container mx-auto px-4 pb-24 md:pb-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
