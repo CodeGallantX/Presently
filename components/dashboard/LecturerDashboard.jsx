@@ -313,5 +313,8 @@ const LecturerDashboard = () => {
       sessionCode={activeSession?.sessionCode}
     />
   </>
-);
+  );
+};
+
+export default LecturerDashboard;
 
