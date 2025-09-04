@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
-
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { 
@@ -316,4 +315,3 @@ const LecturerDashboard = () => {
   </>
 );
 
-export default LecturerDashboard;

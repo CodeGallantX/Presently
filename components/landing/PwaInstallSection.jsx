@@ -23,7 +23,6 @@ const PwaInstallSection = () => {
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setIsInstallDialogOpen(true); // Show install dialog when prompt is available
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -133,23 +132,7 @@ const PwaInstallSection = () => {
         </div>
       </div>
 
-      {/* Android Install Dialog */}
-      <Dialog open={isInstallDialogOpen} onOpenChange={setIsInstallDialogOpen}>
-        <DialogContent className="sm:max-w-[425px] text-center">
-          <DialogHeader>
-            <DialogTitle>Install Presently</DialogTitle>
-            <DialogDescription>Add Presently to your home screen for a faster experience.</DialogDescription>
-          </DialogHeader>
-          <div className="flex flex-col items-center space-y-4">
-            <Smartphone className="w-16 h-16 text-primary" />
-            <p className="text-lg font-semibold">Ready to install?</p>
-            <p className="text-muted-foreground">Click the button below to add Presently to your device.</p>
-          </div>
-          <Button onClick={handleInstallClick} className="cta-button w-full">
-            Install App
-          </Button>
-        </DialogContent>
-      </Dialog>
+      
 
       {/* iOS Instructions Dialog */}
       <Dialog open={isIosInstructionsOpen} onOpenChange={setIsIosInstructionsOpen}>

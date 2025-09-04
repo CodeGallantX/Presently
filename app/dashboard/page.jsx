@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/lib/store';
 import StudentDashboard from '@/components/dashboard/StudentDashboard';
-// import LecturerDashboard from '@/components/dashboard/LecturerDashboard';
+import LecturerDashboard from '@/components/dashboard/LecturerDashboard';
 import ClassRepDashboard from '@/components/dashboard/ClassRepDashboard';
 
 const DashboardPage = () => {
@@ -37,7 +37,7 @@ const DashboardPage = () => {
       case 'student':
         return <StudentDashboard />;
       case 'lecturer':
-        return null; // <LecturerDashboard />;
+        return <LecturerDashboard />;
       case 'class-rep':
         return <ClassRepDashboard />;
       default:

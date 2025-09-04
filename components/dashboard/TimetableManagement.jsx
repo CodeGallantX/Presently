@@ -641,16 +641,3 @@ export default function TimetableManagement() {
       )}
     </>
   );
-}
-
-      {editingEntry && (
-        <EditTimetableEntryModal
-          isOpen={isEditModalOpen}
-          onClose={() => setIsEditModalOpen(false)}
-          entryData={editingEntry}
-          onSave={handleSaveEdit}
-        />
-      )}
-    </>
-  );
-}
