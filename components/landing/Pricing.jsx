@@ -5,73 +5,113 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Check, Star, Zap, Users, Building } from "lucide-react";
+import { Check, Star, Zap, Users, Building, GraduationCap, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const plans = [
   {
-    title: "Students",
-    subtitle: "Perfect for individual learners",
-    icon: <Users className="w-6 h-6" />,
-    price: { naira: { monthly: "Free", annually: "Free" }, dollar: { monthly: "Free", annually: "Free" } },
-    priceDetails: "",
-    trial: "Always free",
-    features: [
-      "Mark attendance with QR/GPS",
-      "Personal attendance history",
-      "Real-time notifications",
-      "Motivational feedback",
-      "Mobile-optimized interface"
-    ],
-    cta: "Sign Up Free",
-    popular: false,
-    color: "border-blue-500/20 bg-blue-500/5"
-  },
-  {
     title: "Lecturers",
     subtitle: "For educators and instructors",
     icon: <Zap className="w-6 h-6" />,
-    price: { naira: { monthly: "₦2,500", annually: "₦25,000" }, dollar: { monthly: "$1.70", annually: "$17" } },
-    priceDetails: { monthly: "/month", annually: "/year" },
-    trial: "14-day free trial",
+    price: { 
+      naira: { monthly: "₦30,000", annually: "₦30,000" }, 
+      dollar: { monthly: "$50", annually: "$50" } 
+    },
+    priceDetails: { monthly: "/year", annually: "/year" },
+    trial: "Free trial available",
     features: [
-      "Create & manage sessions",
-      "Real-time attendance tracking",
+      "Create & manage attendance sessions",
+      "Real-time attendance tracking", 
+      "Export to PDF / Excel / CSV",
+      "Course management tools",
       "Advanced analytics & insights",
-      "Export to PDF/Excel/CSV",
-      "Student notifications",
-      "Course management tools"
+      "Student notifications (reminders & alerts)",
+      "Automations (auto-open/close sessions, reminders)",
+      "Attendance validation alerts"
     ],
     cta: "Start Free Trial",
     popular: true,
-    color: "border-primary/50 bg-primary/5"
+    color: "border-primary/50 bg-primary/5",
+    note: ""
+  },
+  {
+    title: "Students",
+    subtitle: "Compulsory, tied to a lecturer's course",
+    icon: <GraduationCap className="w-6 h-6" />,
+    price: { 
+      naira: { monthly: "₦500", annually: "₦500" }, 
+      dollar: { monthly: "$1", annually: "$1" } 
+    },
+    priceDetails: { monthly: "/year", annually: "/year" },
+    trial: "Auto-enrolled with lecturer",
+    features: [
+      "Mark attendance with QR/GPS",
+      "View attendance history",
+      "Real-time absence/presence notifications",
+      "Motivational feedback",
+      "Mobile-optimized interface"
+    ],
+    cta: "Auto-enrolled",
+    popular: false,
+    color: "border-blue-500/20 bg-blue-500/5",
+    note: "Students cannot sign up alone — they join automatically once their lecturer/course is onboarded.",
+    disabled: true
+  },
+  {
+    title: "Departments",
+    subtitle: "For faculties or departments covering all courses",
+    icon: <Building className="w-6 h-6" />,
+    price: { 
+      naira: { monthly: "₦150,000", annually: "₦1,500,000" }, 
+      dollar: { monthly: "$200", annually: "$2,000" } 
+    },
+    priceDetails: { monthly: "/month", annually: "/year" },
+    trial: "Free 1-Month Trial",
+    features: [
+      "All lecturers & students in department included",
+      "Centralized department dashboard",
+      "Bulk analytics (by course, by level)",
+      "Student compliance & exam clearance reports",
+      "Multi-lecturer coordination tools",
+      "Departmental admin accounts",
+      "Priority support"
+    ],
+    cta: "Start Free Trial",
+    popular: false,
+    color: "border-purple-500/20 bg-purple-500/5",
+    note: ""
   },
   {
     title: "Institutions",
-    subtitle: "For schools and universities",
-    icon: <Building className="w-6 h-6" />,
-    price: { naira: { monthly: "Custom", annually: "Custom" }, dollar: { monthly: "Custom", annually: "Custom" } },
-    priceDetails: "",
-    trial: "30-day trial + demo",
+    subtitle: "For tertiary institutions",
+    icon: <Users className="w-6 h-6" />,
+    price: { 
+      naira: { monthly: "Custom", annually: "Custom" }, 
+      dollar: { monthly: "Custom", annually: "Custom" } 
+    },
+    priceDetails: { monthly: "", annually: "" },
+    trial: "Custom demo & trial",
     features: [
-      "Multi-department management",
-      "Institution-wide analytics",
-      "White-label branding",
-      "Priority support",
-      "Custom integrations",
-      "Advanced reporting suite"
+      "Institution-wide deployment (all departments included)",
+      "Cross-department & faculty analytics",
+      "Custom integrations (LMS, ERP, exam clearance) [coming soon]",
+      "White-label branding (school name, logo, domain)",
+      "Advanced reporting suite",
+      "API access for developers [coming soon]",
+      "Dedicated support & SLA"
     ],
     cta: "Contact Sales",
     popular: false,
-    color: "border-purple-500/20 bg-purple-500/5"
+    color: "border-orange-500/20 bg-orange-500/5",
+    note: ""
   },
 ];
 
 const Pricing = ({ setActiveSection }) => {
   const router = useRouter();
   const [currency, setCurrency] = useState("naira");
-  const [billingCycle, setBillingCycle] = useState("monthly");
+  const [billingCycle, setBillingCycle] = useState("annually");
 
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 0.3 });
@@ -83,12 +123,13 @@ const Pricing = ({ setActiveSection }) => {
   }, [isInView, setActiveSection]);
 
   const handleCtaClick = (cta, planTitle) => {
-    if (planTitle === "Lecturers") {
+    if (planTitle === "Lecturers" || planTitle === "Departments") {
       router.push('/payment');
-    } else if (cta.includes("Sign Up")) {
-      router.push('/auth/signup');
     } else if (cta.includes("Contact")) {
       window.location.href = "mailto:sales@presently.app";
+    } else if (planTitle === "Students") {
+      // Do nothing for disabled student plan
+      return;
     }
   };
 
@@ -107,11 +148,11 @@ const Pricing = ({ setActiveSection }) => {
             <span className="text-primary"> Pricing</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            Choose the perfect plan for your needs. Start free, upgrade when you're ready.
+            Choose the perfect plan for your institution. Start with lecturers, students follow automatically.
           </p>
 
-          {/* Currency and billing toggles */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-12">
+          {/* Currency toggle */}
+          <div className="flex items-center justify-center gap-8 mb-12">
             <div className="flex items-center gap-3 glass-card px-4 py-2 rounded-full">
               <Label htmlFor="currency-switch" className="text-sm font-medium">NGN (₦)</Label>
               <Switch
@@ -121,22 +162,10 @@ const Pricing = ({ setActiveSection }) => {
               />
               <Label htmlFor="currency-switch" className="text-sm font-medium">USD ($)</Label>
             </div>
-            <div className="flex items-center gap-3 glass-card px-4 py-2 rounded-full">
-              <Label htmlFor="billing-switch" className="text-sm font-medium">Monthly</Label>
-              <Switch
-                id="billing-switch"
-                checked={billingCycle === 'annually'}
-                onCheckedChange={(checked) => setBillingCycle(checked ? 'annually' : 'monthly')}
-              />
-              <Label htmlFor="billing-switch" className="text-sm font-medium">
-                Annually 
-                <span className="text-primary ml-1">(Save 17%)</span>
-              </Label>
-            </div>
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch">
           {plans.map((plan, index) => (
             <motion.div
               key={index}
@@ -144,11 +173,16 @@ const Pricing = ({ setActiveSection }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
+              className={cn(
+                "relative",
+                plan.disabled && "opacity-75"
+              )}
             >
               <Card className={cn(
                 "relative h-full flex flex-col transition-all duration-300 hover:shadow-2xl",
                 plan.color,
-                plan.popular && "ring-2 ring-primary/50 shadow-lg shadow-primary/20"
+                plan.popular && "ring-2 ring-primary/50 shadow-lg shadow-primary/20",
+                plan.disabled && "cursor-not-allowed"
               )}>
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
@@ -159,7 +193,7 @@ const Pricing = ({ setActiveSection }) => {
                   </div>
                 )}
 
-                <CardHeader className="text-center pb-8">
+                <CardHeader className="text-center pb-6">
                   <div className={cn(
                     "w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-4 transition-all duration-300",
                     plan.popular ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground"
@@ -180,7 +214,16 @@ const Pricing = ({ setActiveSection }) => {
                 </CardHeader>
 
                 <CardContent className="flex-grow">
-                  <ul className="space-y-4">
+                  {plan.note && (
+                    <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                      <div className="flex items-start gap-2">
+                        <AlertCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                        <p className="text-xs text-blue-400 leading-relaxed">{plan.note}</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <ul className="space-y-3">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <div className="w-5 h-5 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -192,13 +235,15 @@ const Pricing = ({ setActiveSection }) => {
                   </ul>
                 </CardContent>
 
-                <CardFooter className="pt-8">
+                <CardFooter className="pt-6">
                   <Button 
                     onClick={() => handleCtaClick(plan.cta, plan.title)}
                     variant={plan.popular ? 'default' : 'outline'}
+                    disabled={plan.disabled}
                     className={cn(
                       "w-full py-6 font-semibold transition-all duration-200",
-                      plan.popular && "cta-button"
+                      plan.popular && "cta-button",
+                      plan.disabled && "opacity-50 cursor-not-allowed"
                     )}
                   >
                     {plan.cta}
@@ -209,13 +254,55 @@ const Pricing = ({ setActiveSection }) => {
           ))}
         </div>
 
-        {/* Enterprise CTA */}
+        {/* Billing Information */}
         <motion.div
           className="mt-16 text-center"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <div className="glass-card p-8 max-w-4xl mx-auto">
+            <h3 className="text-2xl font-bold mb-6">How Billing Works</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+              <div className="space-y-2">
+                <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mb-3">
+                  <Zap className="w-6 h-6 text-primary" />
+                </div>
+                <h4 className="font-semibold">1. Lecturer Signs Up</h4>
+                <p className="text-sm text-muted-foreground">
+                  Lecturers create accounts and set up their courses with annual billing.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-3">
+                  <GraduationCap className="w-6 h-6 text-blue-400" />
+                </div>
+                <h4 className="font-semibold">2. Students Auto-Enrolled</h4>
+                <p className="text-sm text-muted-foreground">
+                  Students are automatically added when lecturers create courses. Student fees are collected separately.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-3">
+                  <Building className="w-6 h-6 text-green-400" />
+                </div>
+                <h4 className="font-semibold">3. Scale to Department</h4>
+                <p className="text-sm text-muted-foreground">
+                  Departments can upgrade to cover all lecturers and students with centralized billing.
+                </p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Enterprise CTA */}
+        <motion.div
+          className="mt-16 text-center"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
         >
           <div className="glass-card p-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold mb-4">Need something custom?</h3>
