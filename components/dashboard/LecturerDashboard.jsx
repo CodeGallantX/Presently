@@ -84,8 +84,8 @@ const LecturerDashboard = () => {
               </div>
             </div>
           </SidebarHeader>
-          <SidebarContent>
-            <SidebarMenu>
+          <SidebarContent className="p-4">
+            <SidebarMenu className="space-y-2">
               {sidebarItems.map((item, index) => (
                 <SidebarMenuItem key={index}>
                   <SidebarMenuButton isActive={item.active}>
