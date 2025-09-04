@@ -64,9 +64,6 @@ import { useAppStore } from '@/lib/store'; // Adjust the import path as needed
 import { cn } from '@/lib/utils';
 import ReportIssueDialog from '@/components/dashboard/ReportIssueDialog';
 import AppsAndIntegrations from '@/components/dashboard/AppsAndIntegrations';
-import { Label } from "@/components/ui/label";
-
-import { Label } from "@/components/ui/label";
 
 // Sub-components for settings sections
 const AccountSettings = ({ onBack }) => {
@@ -191,7 +188,6 @@ const AccountSettings = ({ onBack }) => {
   )
 };
 
-import { Label } from "@/components/ui/label";
 const NotificationSettings = ({ onBack }) => (
   <Card className="w-full">
     <CardHeader className="relative">
@@ -249,7 +245,6 @@ const NotificationSettings = ({ onBack }) => (
   </Card>
 );
 
-import { Label } from "@/components/ui/label";
 const AppearanceAccessibilitySettings = ({ onBack }) => {
   const { theme, setTheme } = useTheme();
   return (
@@ -308,7 +303,6 @@ const AppearanceAccessibilitySettings = ({ onBack }) => {
   );
 };
 
-import { Label } from "@/components/ui/label";
 const PrivacySecuritySettings = ({ onBack }) => {
   const { locationAccessGranted, setLocationAccessGranted } = useAppStore();
   return (
@@ -356,7 +350,6 @@ const PrivacySecuritySettings = ({ onBack }) => {
   );
 };
 
-import { Label } from "@/components/ui/label";
 const AppPreferencesSettings = ({ onBack }) => (
   <Card className="w-full">
     <CardHeader className="relative">
@@ -412,7 +405,6 @@ const AppPreferencesSettings = ({ onBack }) => (
   </Card>
 );
 
-import { Label } from "@/components/ui/label";
 const HelpSupportSettings = ({ onBack, setIsReportIssueDialogOpen }) => (
   <Card className="w-full">
     <CardHeader className="relative">
@@ -455,7 +447,7 @@ const SettingsPage = () => {
   const [activeCategory, setActiveCategory] = useState('account'); // Default active category
   const [showMobileCategoryContent, setShowMobileCategoryContent] = useState(false);
   const [isReportIssueDialogOpen, setIsReportIssueDialogOpen] = useState(false);
-  const { logout, userRole } = useAppStore();
+  const { logout } = useAppStore();
   const router = useRouter();
 
   const handleLogout = () => {
@@ -465,6 +457,11 @@ const SettingsPage = () => {
 
   const handleBackToCategories = () => {
     setShowMobileCategoryContent(false);
+  };
+
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+    setShowMobileCategoryContent(true);
   };
 
   const ActiveComponent = settingsCategories.find(cat => cat.id === activeCategory)?.component;
