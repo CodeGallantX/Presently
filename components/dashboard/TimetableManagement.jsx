@@ -21,6 +21,17 @@ import {
 } from "@/components/ui/select";
 import { Pencil, Trash2, Play, StopCircle, CalendarPlus, Filter } from "lucide-react"; // Import Filter
 import { useIsMobile } from "@/hooks/use-mobile"; // Import useIsMobile hook
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 // Mock data for timetable entries
 const mockTimetableEntries = [
@@ -97,7 +108,24 @@ export default function TimetableManagement() {
   const [selectedDay, setSelectedDay] = useState("ALL");
   const [selectedStatus, setSelectedStatus] = useState("ALL");
   const [showFilters, setShowFilters] = useState(false); // State for filter visibility
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // State for create modal visibility
+  const [sessionType, setSessionType] = useState("one-time"); // "one-time", "daily", "weekly"
+  const [newEntryCourseCode, setNewEntryCourseCode] = useState("");
+  const [newEntryDate, setNewEntryDate] = useState("");
+  const [newEntryStartTime, setNewEntryStartTime] = useState("");
+  const [newEntryEndTime, setNewEntryEndTime] = useState("");
+  const [newEntryStartDate, setNewEntryStartDate] = useState("");
+  const [newEntryEndDate, setNewEntryEndDate] = useState("");
+  const [newEntryDaysOfWeek, setNewEntryDaysOfWeek] = useState([]); // For weekly repeats
+  const [newEntryAutoStartStop, setNewEntryAutoStartStop] = useState(false);
   const isMobile = useIsMobile(); // Detect mobile device
+  const { toast } = useToast();
+
+  const handleDayOfWeekChange = (day) => {
+    setNewEntryDaysOfWeek((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+    );
+  };
 
   const filteredEntries = useMemo(() => {
     return timetableEntries.filter((entry) => {
@@ -117,24 +145,309 @@ export default function TimetableManagement() {
     });
   }, [timetableEntries, searchTerm, selectedCourseCode, selectedDay, selectedStatus]);
 
+  const handleDelete = (id) => {
+    toast({
+      title: "Delete Action",
+      description: `Are you sure you want to delete entry with ID: ${id}?`,
+      action: <ToastAction altText="Confirm Delete" onClick={() => {
+        setTimetableEntries(timetableEntries.filter((entry) => entry.id !== id));
+        toast({ title: "Entry Deleted", description: `Entry with ID: ${id} has been deleted.` });
+      }}>Confirm</ToastAction>,
+    });
+  };
+
+  
+
+  const handleCreateEntry = () => {
+    // Basic validation
+    if (!newEntryCourseCode) {
+      toast({ title: "Validation Error", description: "Please select a course.", variant: "destructive" });
+      return;
+    }
+
+    let newEntry = {
+      id: `t${timetableEntries.length + 1}`, // Simple ID generation
+      courseName: mockCourses.find(c => c.code === newEntryCourseCode)?.name || "",
+      courseCode: newEntryCourseCode,
+      status: "Upcoming",
+      duration: "N/A", // Will be calculated
+    };
+
+    if (sessionType === "one-time") {
+      if (!newEntryDate || !newEntryStartTime || !newEntryEndTime) {
+        toast({ title: "Validation Error", description: "Please fill in all date and time fields for one-time session.", variant: "destructive" });
+        return;
+      }
+      newEntry = {
+        ...newEntry,
+        day: new Date(newEntryDate).toLocaleDateString('en-US', { weekday: 'long' }),
+        startTime: newEntryStartTime,
+        endTime: newEntryEndTime,
+      };
+    } else if (sessionType === "daily") {
+      if (!newEntryStartDate || !newEntryEndDate || !newEntryStartTime || !newEntryEndTime) {
+        toast({ title: "Validation Error", description: "Please fill in all date and time fields for daily repeats.", variant: "destructive" });
+        return;
+      }
+      newEntry = {
+        ...newEntry,
+        day: "Daily",
+        startTime: newEntryStartTime,
+        endTime: newEntryEndTime,
+        startDate: newEntryStartDate,
+        endDate: newEntryEndDate,
+      };
+    } else if (sessionType === "weekly") {
+      if (newEntryDaysOfWeek.length === 0 || !newEntryStartTime || !newEntryEndTime) {
+        toast({ title: "Validation Error", description: "Please select at least one day and fill in time fields for weekly repeats.", variant: "destructive" });
+        return;
+      }
+      newEntry = {
+        ...newEntry,
+        day: newEntryDaysOfWeek.join(", "),
+        startTime: newEntryStartTime,
+        endTime: newEntryEndTime,
+        daysOfWeek: newEntryDaysOfWeek,
+      };
+    }
+
+    // Calculate duration (simple example)
+    if (newEntry.startTime && newEntry.endTime) {
+      const start = new Date(`2000/01/01 ${newEntry.startTime}`);
+      const end = new Date(`2000/01/01 ${newEntry.endTime}`);
+      const diffMs = end - start;
+      const diffMins = Math.round(diffMs / (1000 * 60));
+      const hours = Math.floor(diffMins / 60);
+      const minutes = diffMins % 60;
+      newEntry.duration = `${hours}h ${minutes}m`;
+    }
+
+    setTimetableEntries((prev) => [...prev, newEntry]);
+    setIsCreateModalOpen(false); // Close modal
+    toast({ title: "Success", description: "Timetable entry created successfully." });
+    // Reset form fields
+    setSessionType("one-time");
+    setNewEntryCourseCode("");
+    setNewEntryDate("");
+    setNewEntryStartTime("");
+    setNewEntryEndTime("");
+    setNewEntryStartDate("");
+    setNewEntryEndDate("");
+    setNewEntryDaysOfWeek([]);
+    setNewEntryAutoStartStop(false);
+  };
+
   const handleEdit = (id) => {
-    alert(`Edit entry with ID: ${id}`);
+    toast({ title: "Edit Action", description: `Edit entry with ID: ${id}` });
     // In a real app, this would open a form to edit the entry
   };
 
-  const handleDelete = (id) => {
-    if (confirm(`Are you sure you want to delete entry with ID: ${id}?`)) {
-      setTimetableEntries(timetableEntries.filter((entry) => entry.id !== id));
-    }
-  };
-
-  const handleStartStop = (id, action) => {
-    alert(`${action} session for entry with ID: ${id}`);
-    // In a real app, this would update the session status
-  };
-
   return (
-    <div className="space-y-6">
+    <>
+      <div className="flex justify-end mb-4">
+        <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+          <DialogTrigger asChild>
+            <Button>Create New Entry</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Create New Timetable Entry</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="sessionType" className="text-right">
+                  Session Type
+                </Label>
+                <Select onValueChange={setSessionType} value={sessionType}>
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select session type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="one-time">One-Time Session</SelectItem>
+                    <SelectItem value="daily">Daily Repeats</SelectItem>
+                    <SelectItem value="weekly">Weekly Repeats</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Course Selection */}
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="courseCode" className="text-right">
+                  Course
+                </Label>
+                <Select onValueChange={setNewEntryCourseCode} value={newEntryCourseCode}>
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select a course" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {mockCourses.map((course) => (
+                      <SelectItem key={course.code} value={course.code}>
+                        {course.name} ({course.code})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {sessionType === "one-time" && (
+                <>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="date" className="text-right">
+                      Date
+                    </Label>
+                    <Input
+                      id="date"
+                      type="date"
+                      value={newEntryDate}
+                      onChange={(e) => setNewEntryDate(e.target.value)}
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="startTime" className="text-right">
+                      Start Time
+                    </Label>
+                    <Input
+                      id="startTime"
+                      type="time"
+                      value={newEntryStartTime}
+                      onChange={(e) => setNewEntryStartTime(e.target.value)}
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="endTime" className="text-right">
+                      End Time
+                    </Label>
+                    <Input
+                      id="endTime"
+                      type="time"
+                      value={newEntryEndTime}
+                      onChange={(e) => setNewEntryEndTime(e.target.value)}
+                      className="col-span-3"
+                    />
+                  </div>
+                </>
+              )}
+
+              {sessionType === "daily" && (
+                <>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="startDate" className="text-right">
+                      Start Date
+                    </Label>
+                    <Input
+                      id="startDate"
+                      type="date"
+                      value={newEntryStartDate}
+                      onChange={(e) => setNewEntryStartDate(e.target.value)}
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="endDate" className="text-right">
+                      End Date
+                    </Label>
+                    <Input
+                      id="endDate"
+                      type="date"
+                      value={newEntryEndDate}
+                      onChange={(e) => setNewEntryEndDate(e.target.value)}
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="dailyStartTime" className="text-right">
+                      Start Time
+                    </Label>
+                    <Input
+                      id="dailyStartTime"
+                      type="time"
+                      value={newEntryStartTime}
+                      onChange={(e) => setNewEntryStartTime(e.target.value)}
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="dailyEndTime" className="text-right">
+                      End Time
+                    </Label>
+                    <Input
+                      id="dailyEndTime"
+                      type="time"
+                      value={newEntryEndTime}
+                      onChange={(e) => setNewEntryEndTime(e.target.value)}
+                      className="col-span-3"
+                    />
+                  </div>
+                </>
+              )}
+
+              {sessionType === "weekly" && (
+                <>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label className="text-right">Days</Label>
+                    <div className="col-span-3 flex flex-wrap gap-2">
+                      {mockDays.filter(day => day.value !== "ALL").map((day) => (
+                        <div key={day.value} className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            id={day.value}
+                            checked={newEntryDaysOfWeek.includes(day.value)}
+                            onChange={() => handleDayOfWeekChange(day.value)}
+                            className="form-checkbox"
+                          />
+                          <Label htmlFor={day.value}>{day.label}</Label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="weeklyStartTime" className="text-right">
+                      Start Time
+                    </Label>
+                    <Input
+                      id="weeklyStartTime"
+                      type="time"
+                      value={newEntryStartTime}
+                      onChange={(e) => setNewEntryStartTime(e.target.value)}
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="weeklyEndTime" className="text-right">
+                      End Time
+                    </Label>
+                    <Input
+                      id="weeklyEndTime"
+                      type="time"
+                      value={newEntryEndTime}
+                      onChange={(e) => setNewEntryEndTime(e.target.value)}
+                      className="col-span-3"
+                    />
+                  </div>
+                </>
+              )}
+
+              {/* Extra Configurations */}
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="autoStartStop" className="text-right">
+                  Auto Start/Stop
+                </Label>
+                <Switch
+                  id="autoStartStop"
+                  checked={newEntryAutoStartStop}
+                  onCheckedChange={setNewEntryAutoStartStop}
+                  className="col-span-3"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <Button onClick={handleCreateEntry}>Create Entry</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
       <Card className="dashboard-card">
         <CardHeader className="pb-3">
           <CardTitle className="text-lg">Timetable Entries</CardTitle>
@@ -291,6 +604,6 @@ export default function TimetableManagement() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 }
