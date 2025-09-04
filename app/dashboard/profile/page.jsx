@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { User, Building, GraduationCap, MapPin } from 'lucide-react'; // Icons
 
+import { useRouter } from 'next/navigation';
+
 export default function ProfilePage() {
   const router = useRouter(); // Import useRouter
   const [profileData, setProfileData] = useState({
@@ -23,7 +25,7 @@ export default function ProfilePage() {
   return (
     <>
       <DashboardHeader title="My Profile" />
-      <main className="flex-1 container mx-auto px-4 py-8 pt-24 pb-24 md:pb-8">
+      <main className="flex-1 container mx-auto px-4 py-8 pt-32 pb-24 md:pb-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

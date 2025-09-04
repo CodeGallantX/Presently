@@ -10,22 +10,24 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import AuthLayout from '@/components/auth/AuthLayout';
+import { useToast } from "@/components/ui/use-toast";
 
 const ResetPasswordPage = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
-      alert("Passwords do not match!");
+      toast({ title: "Error", description: "Passwords do not match!", variant: "destructive" });
       return;
     }
     setIsLoading(true);
     // Simulate password reset
     setTimeout(() => {
-      alert('Password reset successfully! (Simulated)');
+      toast({ title: "Success", description: "Password reset successfully! (Simulated)" });
       setIsLoading(false);
       // Redirect to sign-in page or dashboard
     }, 2000);

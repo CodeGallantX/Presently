@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Users, FileDown, Calendar, TrendingUp, BookOpen, MessageSquare } from "lucide-react";
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import MobileNav from '@/components/dashboard/MobileNav';
+import { useToast } from "@/components/ui/use-toast";
 
 const ClassRepDashboard = () => {
   const [classData] = useState({
@@ -15,6 +16,7 @@ const ClassRepDashboard = () => {
     todayPresent: 42,
     courseName: 'Mathematics 101'
   });
+  const { toast } = useToast();
 
   const [recentSessions] = useState([
     { id: 1, date: '2025-01-15', present: 42, total: 45, lecturer: 'Dr. Smith' },
@@ -25,19 +27,19 @@ const ClassRepDashboard = () => {
   const handleExportReport = (type) => {
     console.log(`Exporting ${type} report...`);
     // In a real app, this would trigger a file download
-    alert(`Simulating export of ${type} report.`);
+    toast({ title: "Export Report", description: `Simulating export of ${type} report.` });
   };
 
   const handleSendMessage = () => {
     console.log('Sending announcement...');
     // In a real app, this would open a modal or navigate to a messaging interface
-    alert('Simulating sending an announcement.');
+    toast({ title: "Send Announcement", description: "Simulating sending an announcement." });
   };
 
   const handleViewClassList = () => {
     console.log('Viewing class list...');
     // In a real app, this would navigate to a class list page
-    alert('Simulating viewing class list.');
+    toast({ title: "View Class List", description: "Simulating viewing class list." });
   };
 
   return (

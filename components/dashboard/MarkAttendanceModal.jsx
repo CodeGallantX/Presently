@@ -9,11 +9,13 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { QrCode, MapPin, CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useToast } from "@/components/ui/use-toast";
 
 const MarkAttendanceModal = ({ isOpen, onClose, onMarkAttendance }) => {
   const [sessionCode, setSessionCode] = useState('');
   const [locationStatus, setLocationStatus] = useState(null); // null, 'checking', 'in-range', 'out-of-range'
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const handleCheckLocation = () => {
     setLocationStatus('checking');
@@ -26,11 +28,11 @@ const MarkAttendanceModal = ({ isOpen, onClose, onMarkAttendance }) => {
 
   const handleSubmitAttendance = () => {
     if (locationStatus !== 'in-range') {
-      alert('You must be in range to mark attendance.');
+      toast({ title: "Location Error", description: "You must be in range to mark attendance.", variant: "destructive" });
       return;
     }
     if (!sessionCode) {
-      alert('Please enter a session code.');
+      toast({ title: "Input Error", description: "Please enter a session code.", variant: "destructive" });
       return;
     }
 

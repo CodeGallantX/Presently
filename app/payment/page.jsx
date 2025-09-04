@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useToast } from "@/components/ui/use-toast";
 
 const PaymentPage = () => {
   const [cardNumber, setCardNumber] = useState('');
@@ -17,6 +18,7 @@ const PaymentPage = () => {
   const [expiryYear, setExpiryYear] = useState('');
   const [cvv, setCvv] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 10 }, (_, i) => currentYear + i);
@@ -27,7 +29,7 @@ const PaymentPage = () => {
     setIsLoading(true);
     // Simulate payment processing
     setTimeout(() => {
-      alert('Payment successful! (Simulated)');
+      toast({ title: "Payment Successful", description: "Payment successful! (Simulated)" });
       setIsLoading(false);
       // Redirect to a success page or dashboard
     }, 2000);

@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Plug } from "lucide-react"; // General integration icon
 import { FaSlack, FaWhatsapp, FaFileExcel } from "react-icons/fa";
 import { SiGooglecalendar } from "react-icons/si";
+import { useToast } from "@/components/ui/use-toast";
 
 // Mock data for integrations
 const integrations = [
@@ -40,8 +41,12 @@ const integrations = [
 ];
 
 export default function AppsAndIntegrations({ onBack }) {
+  const { toast } = useToast();
   const handleConnectDisconnect = (id, currentStatus) => {
-    alert(`Attempting to ${currentStatus === "Connected" ? "disconnect from" : "connect to"} ${id}`);
+    toast({
+      title: "Integration Action",
+      description: `Attempting to ${currentStatus === "Connected" ? "disconnect from" : "connect to"} ${id}`,
+    });
     // In a real app, this would trigger an OAuth flow or API call
   };
 

@@ -32,6 +32,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { EditTimetableEntryModal } from "@/components/dashboard/EditTimetableEntryModal";
 
 // Mock data for timetable entries
 const mockTimetableEntries = [
@@ -109,6 +110,8 @@ export default function TimetableManagement() {
   const [selectedStatus, setSelectedStatus] = useState("ALL");
   const [showFilters, setShowFilters] = useState(false); // State for filter visibility
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // State for create modal visibility
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // State for edit modal visibility
+  const [editingEntry, setEditingEntry] = useState(null); // State for entry being edited
   const [sessionType, setSessionType] = useState("one-time"); // "one-time", "daily", "weekly"
   const [newEntryCourseCode, setNewEntryCourseCode] = useState("");
   const [newEntryDate, setNewEntryDate] = useState("");
@@ -156,7 +159,35 @@ export default function TimetableManagement() {
     });
   };
 
-  
+  const handleStartStop = (id, action) => {
+    setTimetableEntries((prevEntries) =>
+      prevEntries.map((entry) =>
+        entry.id === id
+          ? { ...entry, status: action === "Start" ? "In Progress" : "Completed" }
+          : entry
+      )
+    );
+    toast({ title: "Session Action", description: `Timetable entry ${action === "Start" ? "started" : "stopped"}.` });
+  };
+
+  const handleEdit = (id) => {
+    const entryToEdit = timetableEntries.find((entry) => entry.id === id);
+    if (entryToEdit) {
+      setEditingEntry(entryToEdit);
+      setIsEditModalOpen(true);
+    }
+  };
+
+  const handleSaveEdit = (updatedEntry) => {
+    setTimetableEntries((prevEntries) =>
+      prevEntries.map((entry) =>
+        entry.id === updatedEntry.id ? updatedEntry : entry
+      )
+    );
+    setIsEditModalOpen(false);
+    setEditingEntry(null);
+    toast({ title: "Success", description: "Timetable entry updated successfully." });
+  };
 
   const handleCreateEntry = () => {
     // Basic validation
@@ -235,11 +266,6 @@ export default function TimetableManagement() {
     setNewEntryEndDate("");
     setNewEntryDaysOfWeek([]);
     setNewEntryAutoStartStop(false);
-  };
-
-  const handleEdit = (id) => {
-    toast({ title: "Edit Action", description: `Edit entry with ID: ${id}` });
-    // In a real app, this would open a form to edit the entry
   };
 
   return (
@@ -604,6 +630,27 @@ export default function TimetableManagement() {
           )}
         </CardContent>
       </Card>
+
+      {editingEntry && (
+        <EditTimetableEntryModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          entryData={editingEntry}
+          onSave={handleSaveEdit}
+        />
+      )}
+    </>
+  );
+}
+
+      {editingEntry && (
+        <EditTimetableEntryModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          entryData={editingEntry}
+          onSave={handleSaveEdit}
+        />
+      )}
     </>
   );
 }

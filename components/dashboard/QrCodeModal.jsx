@@ -3,15 +3,17 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Download, Share2 } from 'lucide-react';
+import { useToast } from "@/components/ui/use-toast";
 
 const QrCodeModal = ({ isOpen, onClose, qrCodeUrl, sessionCode }) => {
+  const { toast } = useToast();
   const handleDownload = () => {
-    alert('Simulating QR code download.');
+    toast({ title: "Download", description: "Simulating QR code download." });
     // In a real app, you'd initiate a file download here
   };
 
   const handleShare = () => {
-    alert('Simulating QR code share.');
+    toast({ title: "Share", description: "Simulating QR code share." });
     // In a real app, you'd use the Web Share API or similar
   };
 

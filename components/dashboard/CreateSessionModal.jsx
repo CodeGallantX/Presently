@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BookOpen, MapPin, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useToast } from "@/components/ui/use-toast";
 
 const dummyCourses = [
   { id: 'math101', name: 'Mathematics 101' },
@@ -29,10 +30,11 @@ const CreateSessionModal = ({ isOpen, onClose, onCreateSession }) => {
   const [selectedCourse, setSelectedCourse] = useState('');
   const [selectedVenue, setSelectedVenue] = useState('');
   const [isCreating, setIsCreating] = useState(false);
+  const { toast } = useToast();
 
   const handleCreate = () => {
     if (!selectedCourse || !selectedVenue) {
-      alert('Please select both a course and a venue.');
+      toast({ title: "Input Error", description: "Please select both a course and a venue.", variant: "destructive" });
       return;
     }
 
