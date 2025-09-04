@@ -174,7 +174,8 @@ const AccountSettings = ({ onBack }) => {
       </Button>
     </CardContent>
   </Card>
-);
+  )
+};
 
 const NotificationSettings = ({ onBack }) => (
   <Card className="w-full">
