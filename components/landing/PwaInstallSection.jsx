@@ -73,7 +73,7 @@ const PwaInstallSection = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex justify-center"
           >
-            <img src="https://via.placeholder.com/300x500?text=App+Mockup" alt="App Mockup" className="w-full max-w-xs rounded-lg shadow-lg" />
+            <img src="/mockups/iphone15-straight.jpg" alt="Iphone 15 Mockup Straight" className="w-full max-w-xs rounded-lg shadow-lg" />
           </motion.div>
 
           {/* Install Buttons */}
